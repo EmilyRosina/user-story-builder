@@ -8,6 +8,7 @@ import router from './router'
 Vue.config.productionTip = false
 Vue.use(require('element-ui'))
 require('element-ui/lib/theme-chalk/index.css')
+require('@/assets/main.scss')
 
 /* eslint-disable no-new */
 new Vue({

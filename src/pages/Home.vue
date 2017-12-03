@@ -2,7 +2,13 @@
   <el-container id="home-page">
     <el-header>User Story Builder</el-header>
     <el-main>
-      <add-data-group></add-data-group>
+      <add-data-group @click.native="addNewDataGroup" v-if="!addingNewDataGroup"></add-data-group>
+      <el-row v-if="addingNewDataGroup">
+        <new-data-group></new-data-group>
+      </el-row>
+      <el-row>
+        <el-col v-for="dataGroup in dataGroups" :key="dataGroup.name"><data-group :info="dataGroup"></data-group></el-col>
+      </el-row>
       <slot></slot>
     </el-main>
     <el-footer>EmilyRosina &copy; {{ thisYear }}</el-footer>
@@ -11,9 +17,13 @@
 
 <script>
   import AddDataGroup from '@/components/AddDataGroup'
+  import DataGroup from '@/components/DataGroup'
+  import NewDataGroup from '@/components/NewDataGroup'
+
   export default {
     data () {
       return {
+        addingNewDataGroup: false,
         dataGroups: [],
         newDataGroup: {
           name: '',
@@ -24,7 +34,14 @@
       }
     },
     components: {
-      AddDataGroup
+      AddDataGroup,
+      DataGroup,
+      NewDataGroup
+    },
+    methods: {
+      addNewDataGroup () {
+        this.addingNewDataGroup = true
+      }
     },
     computed: {
       thisYear () {

@@ -1,0 +1,63 @@
+.el-button,
+.el-button--warning.is-plain {
+  background: none;
+  background-color: none;
+  border-color: #eb9e05;
+  color: #eb9e05;
+  &:hover, &:active, &:focus {
+    color: #444;
+  }
+  &.remove, &.add {
+    color: white;
+    font-weight: 600;
+    border-color: #eb9e05;
+    &:active, &:focus {
+      background: none;
+      border-color: #eb9e05;
+    }
+  }
+  &.remove {
+    &:hover {
+      $x: tomato;
+      background-color: $x;
+      border-color: $x;
+    }
+  }
+  &.add {
+    &:hover {
+      $x: limegreen;
+      background-color: $x;
+      border-color: $x;
+    }
+  }
+  &.disabled {
+    background: #222;
+    color: #444;
+    &:hover, &:active, &:focus {
+      background: #222;
+      color: #444;
+      border-color: #eb9e05;
+    }
+  }
+}
+
+.el-input {
+  &.centered {
+    .el-input__inner {
+      text-align: center;
+    }
+  }
+  .el-input__inner {
+    background: rgba(0,0,0,0.75);
+    border-color: #eb9e05;
+    color: #eb9e05;
+
+    &:hover, &:focus {
+      border-color: #eb9e05;
+    }
+  }
+}
+
+.cursor-not-allowed {
+  cursor: not-allowed;
+}
