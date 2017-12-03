@@ -30,13 +30,14 @@
       border-color: $x;
     }
   }
-  &.disabled {
+  &.is-disabled {
     background: #222;
     color: #444;
+    border-color: #3c3c3c;
     &:hover, &:active, &:focus {
       background: #222;
       color: #444;
-      border-color: #eb9e05;
+      border-color: #3c3c3c;
     }
   }
 }
@@ -49,7 +50,8 @@
   }
   .el-input__inner {
     background: rgba(0,0,0,0.75);
-    border-color: #eb9e05;
+    border-color: #3c3c3c;
+    border-radius: 0;
     color: #eb9e05;
 
     &:hover, &:focus {
@@ -58,6 +60,30 @@
   }
 }
 
+.el-button-group.joint-input {
+  .el-button {
+    border-color: #3c3c3c;
+    &:first-child {
+      border-radius: 0;
+      border-left: 0;
+    }
+  }
+}
+
 .cursor-not-allowed {
   cursor: not-allowed;
+}
+
+.required::after {
+  content: "*";
+  color: #b10000;
+  padding-left: 0.25em;
+}
+
+.rules {
+  text-align: right;
+  display: block;
+  font-size: 0.85rem;
+  color: #b10000;
+  padding: 0.25em;
 }

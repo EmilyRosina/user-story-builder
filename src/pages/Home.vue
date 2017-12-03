@@ -6,8 +6,10 @@
       <el-row v-if="addingNewDataGroup">
         <new-data-group></new-data-group>
       </el-row>
-      <el-row>
-        <el-col v-for="dataGroup in dataGroups" :key="dataGroup.name"><data-group :info="dataGroup"></data-group></el-col>
+      <el-row style="padding: 2em;" v-if="!addingNewDataGroup">
+        <el-col span="6" v-for="dataGroup in dataGroups" :key="dataGroup.name">
+          <data-group :info="dataGroup"></data-group>
+        </el-col>
       </el-row>
       <slot></slot>
     </el-main>
@@ -23,14 +25,7 @@
   export default {
     data () {
       return {
-        addingNewDataGroup: false,
-        dataGroups: [],
-        newDataGroup: {
-          name: '',
-          type: '',
-          of: '', // only for type === 'array'
-          properties: [] // only for type === 'object'
-        }
+
       }
     },
     components: {
@@ -40,12 +35,18 @@
     },
     methods: {
       addNewDataGroup () {
-        this.addingNewDataGroup = true
+        this.$store.state.addingNewDataGroup = true
       }
     },
     computed: {
       thisYear () {
         return (new Date()).getFullYear()
+      },
+      dataGroups () {
+        return this.$store.state.dataGroups
+      },
+      addingNewDataGroup () {
+        return this.$store.state.addingNewDataGroup
       }
     }
   }

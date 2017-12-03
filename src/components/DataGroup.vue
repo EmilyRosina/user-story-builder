@@ -1,5 +1,5 @@
 <template>
-  <el-button type="info" plain class="add-data-group" @click="showDataInConsole">
+  <el-button type="info" plain class="add-data-group" @click="showDataInConsole" style="width: 100%;">
     {{ info.name }}
   </el-button>
 </template>
