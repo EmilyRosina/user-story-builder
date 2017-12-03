@@ -1,6 +1,6 @@
 <template>
-  <el-col type="flex" :span="12" :offset="6" class="new-data-group">
-    <h4 class="title">new data group</h4>
+  <el-col type="flex" :span="12" :offset="6" class="edit-data-group">
+    <h4 class="title">edit data group</h4>
     <el-row type="flex" class="section">
       <el-col>
         <span class="subtitle required">Name</span>
@@ -25,7 +25,7 @@
     </el-row>
 
     <el-row class="section">
-      <el-button type="warning" plain :disabled="nameNotEntered" @click="addNewDataGroup">Add</el-button>
+      <el-button type="warning" plain :disabled="nameNotEntered" @click="saveDataGroup">Save</el-button>
     </el-row>
 
   </el-col>
@@ -33,16 +33,17 @@
 
 <script>
   export default {
+    mounted () {
+      this.index = this.$store.state.selectedDataGroup.index
+      this.name = this.$store.state.selectedDataGroup.dataGroup.name
+      this.properties = this.$store.state.selectedDataGroup.dataGroup.properties
+    },
     data () {
       return {
         firstChance: true,
-        name: '',
-        properties: [
-          {
-            key: 1,
-            value: ''
-          }
-        ]
+        index: null,
+        name: null,
+        properties: null
       }
     },
     methods: {
@@ -58,12 +59,14 @@
       removeOption (index) {
         this.properties.splice(index, 1)
       },
-      addNewDataGroup () {
-        this.$store.state.dataGroups.push({
+      saveDataGroup () {
+        this.$store.state.dataGroups[this.index] = {
           name: this.name,
           properties: this.properties
-        })
-        this.$store.state.addingNewDataGroup = false
+        }
+        this.$store.state.selectedDataGroup.index = null
+        this.$store.state.selectedDataGroup.dataGroup = null
+        this.$store.state.editingDataGroup = false
       }
     },
     computed: {
@@ -91,7 +94,7 @@
   .no-gutter {
     margin: 0
   }
-  .new-data-group {
+  .edit-data-group {
     background: rgba(0,0,0,0.45);
     padding: 1em 2em;
   }

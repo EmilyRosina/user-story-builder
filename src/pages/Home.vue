@@ -5,12 +5,15 @@
       <el-row v-if="addingNewDataGroup">
         <new-data-group></new-data-group>
       </el-row>
-      <el-row style="padding: 2em;" v-if="!addingNewDataGroup" :gutter="20">
+      <el-row v-if="editingDataGroup">
+        <edit-data-group></edit-data-group>
+      </el-row>
+      <el-row style="padding: 2em;" v-if="!addingNewDataGroup && !editingDataGroup" :gutter="20">
         <el-col :span="6" style="padding-top: 20px;">
-          <add-data-group @click.native="addNewDataGroup" v-if="!addingNewDataGroup"></add-data-group>
+          <add-data-group @click.native="addNewDataGroup" v-if="!addingNewDataGroup && !editingDataGroup"></add-data-group>
         </el-col>
-        <el-col :span="6" v-for="dataGroup in dataGroups" :key="dataGroup.name" style="padding-top: 20px;">
-          <data-group :info="dataGroup"></data-group>
+        <el-col :span="6" v-for="(dataGroup, index) in dataGroups" :key="dataGroup.name" style="padding-top: 20px;">
+          <data-group :info="dataGroup" @click.native="editDataGroup(dataGroup, index)"></data-group>
         </el-col>
       </el-row>
       <slot></slot>
@@ -21,6 +24,7 @@
 
 <script>
   import AddDataGroup from '@/components/AddDataGroup'
+  import EditDataGroup from '@/components/EditDataGroup'
   import DataGroup from '@/components/DataGroup'
   import NewDataGroup from '@/components/NewDataGroup'
 
@@ -33,9 +37,15 @@
     components: {
       AddDataGroup,
       DataGroup,
-      NewDataGroup
+      NewDataGroup,
+      EditDataGroup
     },
     methods: {
+      editDataGroup (dataGroup, index) {
+        this.$store.state.selectedDataGroup.index = index
+        this.$store.state.selectedDataGroup.dataGroup = dataGroup
+        this.$store.state.editingDataGroup = true
+      },
       addNewDataGroup () {
         this.$store.state.addingNewDataGroup = true
       }
@@ -49,6 +59,9 @@
       },
       addingNewDataGroup () {
         return this.$store.state.addingNewDataGroup
+      },
+      editingDataGroup () {
+        return this.$store.state.editingDataGroup
       }
     }
   }
