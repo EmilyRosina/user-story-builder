@@ -11,5 +11,7 @@
 </script>
 
 <style lang="scss" scoped>
-
+  .el-button {
+    width: 100%;
+  }
 </style>

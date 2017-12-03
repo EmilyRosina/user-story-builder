@@ -2,12 +2,14 @@
   <el-container id="home-page">
     <el-header>User Story Builder</el-header>
     <el-main>
-      <add-data-group @click.native="addNewDataGroup" v-if="!addingNewDataGroup"></add-data-group>
       <el-row v-if="addingNewDataGroup">
         <new-data-group></new-data-group>
       </el-row>
-      <el-row style="padding: 2em;" v-if="!addingNewDataGroup">
-        <el-col span="6" v-for="dataGroup in dataGroups" :key="dataGroup.name">
+      <el-row style="padding: 2em;" v-if="!addingNewDataGroup" :gutter="20">
+        <el-col :span="6">
+          <add-data-group @click.native="addNewDataGroup" v-if="!addingNewDataGroup"></add-data-group>
+        </el-col>
+        <el-col :span="6" v-for="dataGroup in dataGroups" :key="dataGroup.name">
           <data-group :info="dataGroup"></data-group>
         </el-col>
       </el-row>
