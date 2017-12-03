@@ -16,6 +16,7 @@
       return {
         dataGroups: [],
         newDataGroup: {
+          name: '',
           type: '',
           of: '', // only for type === 'array'
           properties: [] // only for type === 'object'
