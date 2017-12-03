@@ -6,10 +6,10 @@
         <new-data-group></new-data-group>
       </el-row>
       <el-row style="padding: 2em;" v-if="!addingNewDataGroup" :gutter="20">
-        <el-col :span="6">
+        <el-col :span="6" style="padding-top: 20px;">
           <add-data-group @click.native="addNewDataGroup" v-if="!addingNewDataGroup"></add-data-group>
         </el-col>
-        <el-col :span="6" v-for="dataGroup in dataGroups" :key="dataGroup.name">
+        <el-col :span="6" v-for="dataGroup in dataGroups" :key="dataGroup.name" style="padding-top: 20px;">
           <data-group :info="dataGroup"></data-group>
         </el-col>
       </el-row>
