@@ -1,5 +1,8 @@
 <template>
   <el-col type="flex" :span="12" :offset="6" class="edit-data-group">
+    <el-row type="flex" justify="end" class="close-bar">
+      <icon name="times" class="icon" scale="1.5" @click.native="cancel"></icon>
+    </el-row>
     <h4 class="title">edit data group</h4>
     <el-row type="flex" class="section">
       <el-col>
@@ -8,24 +11,41 @@
           <el-input v-model.trim="name" class="centered" @blur="firstChance = false"></el-input>
         </el-row>
         <span v-if="nameNotEntered && !firstChance" class="rules">You need to enter a name</span>
+        <span v-else-if="nameAlreadyExists && !matchesOriginalName" class="rules">You already have a data group with that name</span>
       </el-col>
     </el-row>
 
     <el-row class="section">
       <el-col>
         <span class="subtitle">Properties</span>
-        <el-row type="flex" class="no-gutter" v-for="(property, index) in properties" :key="property.key">
-          <el-input placeholder="" v-model.trim="property.value"></el-input>
-          <el-button-group class="joint-input">
-            <el-button @click="!isFirst(index) ? removeOption(index) : null" type="warning" plain :class="['remove', {'cursor-not-allowed disabled': isFirst(index)}]">-</el-button>
-            <el-button @click="addOption(index)" type="warning" plain class="add">+</el-button>
-          </el-button-group>
-        </el-row>
+        <template v-if="!hasProperties">
+          <el-row type="flex" class="no-gutter">
+            <el-input placeholder="" @keyup="initialiseProperties"></el-input>
+            <el-button-group class="joint-input">
+              <el-button type="warning" plain class="remove cursor-not-allowed disabled">-</el-button>
+              <el-button @click="addOption()" type="warning" plain class="add">+</el-button>
+            </el-button-group>
+          </el-row>
+        </template>
+        <template v-else>
+          <el-row type="flex" class="no-gutter" v-for="(property, index) in properties" :key="property.key">
+            <el-input placeholder="" v-model.trim="property.value"></el-input>
+            <el-button-group class="joint-input">
+              <el-button @click="!onlyOneProperty ? removeOption(index) : null" type="warning" plain :class="['remove', {'cursor-not-allowed disabled': onlyOneProperty}]">-</el-button>
+              <el-button @click="addOption()" type="warning" plain class="add">+</el-button>
+            </el-button-group>
+          </el-row>
+        </template>
       </el-col>
     </el-row>
 
-    <el-row class="section">
-      <el-button type="warning" plain :disabled="nameNotEntered" @click="saveDataGroup">Save</el-button>
+    <el-row type="flex" class="section">
+      <el-col style="display: flex;" :span="4">
+        <icon name="trash" scale="1.75" @click.native="deleteDataGroup" class="delete-data-group"></icon>
+      </el-col>
+      <el-col :span="16">
+        <el-button type="warning" plain :disabled="nameNotEntered || (nameAlreadyExists && !matchesOriginalName)" @click="saveDataGroup" class="save-btn">Save</el-button>
+      </el-col>
     </el-row>
 
   </el-col>
@@ -42,18 +62,21 @@
       return {
         firstChance: true,
         index: null,
-        name: null,
-        properties: null
+        name: '',
+        properties: []
       }
     },
     methods: {
       isFirst (index) {
         return index === 0
       },
-      addOption () {
+      initialiseProperties (value) {
+        this.addOption(value)
+      },
+      addOption (value = '') {
         this.properties.push({
           key: Date.now(),
-          value: ''
+          value
         })
       },
       removeOption (index) {
@@ -66,18 +89,50 @@
         }
         this.$store.state.selectedDataGroup.index = null
         this.$store.state.selectedDataGroup.dataGroup = null
+        this.cancel()
+      },
+      deleteDataGroup () {
+        this.$store.state.dataGroups.splice(this.index, 1)
+        this.$store.state.selectedDataGroup.index = null
+        this.$store.state.selectedDataGroup.dataGroup = null
+        this.cancel()
+      },
+      cancel () {
         this.$store.state.editingDataGroup = false
       }
     },
     computed: {
+      matchesOriginalName () {
+        return this.$store.state.dataGroups[this.index].name === this.name
+      },
+      nameAlreadyExists () {
+        return this.$store.state.dataGroups.map(dataGroup => {
+          return dataGroup.name
+        }).includes(this.name)
+      },
       nameNotEntered () {
         return this.name === ''
+      },
+      hasProperties () {
+        return this.properties.length > 0
+      },
+      onlyOneProperty () {
+        return this.propertiesLength === 1
+      },
+      propertiesLength () {
+        return this.properties.length
       }
     }
   }
 </script>
 
 <style lang="scss" scoped>
+  @mixin hover-focus-active {
+      &:hover, &:focus, &:active {
+          @content;
+      }
+  }
+
   .title {
     color: darkorange;
     font-weight: 200;
@@ -101,5 +156,24 @@
   .el-input {
     flex: 1 0 auto;
     width: initial;
+  }
+  .close-bar {
+    margin-bottom: -1em;
+    width: calc(100% + 2em);
+    padding: 0 1em;
+    .icon {
+      color:rgba(255,255,255,0.15);
+      transition: 0.25s;
+      @include hover-focus-active {
+        color: darkorange
+      }
+    }
+  }
+  .save-btn {
+    align-self: center;
+  }
+  .delete-data-group {
+    color: #680808;
+    align-self: flex-end;
   }
 </style>
