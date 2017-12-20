@@ -1,40 +1,33 @@
 <template>
-  <el-container id="home-page">
+  <main-layout>
 
-    <el-header>User Story Builder</el-header>
+    <el-row v-if="addingNewDataGroup">
+      <new-data-group></new-data-group>
+    </el-row>
 
-    <el-main>
+    <el-row v-if="editingDataGroup">
+      <edit-data-group></edit-data-group>
+    </el-row>
 
-      <el-row v-if="addingNewDataGroup">
-        <new-data-group></new-data-group>
-      </el-row>
+    <el-row style="padding: 2em;" v-if="!addingNewDataGroup && !editingDataGroup" :gutter="20">
+      <el-col :span="6" style="padding-top: 20px;">
+        <add-data-group @click.native="addNewDataGroup" v-if="!addingNewDataGroup && !editingDataGroup"></add-data-group>
+      </el-col>
+      <el-col :span="18">
+        <el-row :gutter="20">
+          <el-col :span="12" v-for="(dataGroup, index) in dataGroups" :key="dataGroup.name" style="padding-top: 20px;">
+            <data-group :info="dataGroup" @click.native="editDataGroup(dataGroup, index)"></data-group>
+          </el-col>
+        </el-row>
+      </el-col>
 
-      <el-row v-if="editingDataGroup">
-        <edit-data-group></edit-data-group>
-      </el-row>
+    </el-row>
 
-      <el-row style="padding: 2em;" v-if="!addingNewDataGroup && !editingDataGroup" :gutter="20">
-        <el-col :span="6" style="padding-top: 20px;">
-          <add-data-group @click.native="addNewDataGroup" v-if="!addingNewDataGroup && !editingDataGroup"></add-data-group>
-        </el-col>
-        <el-col :span="18">
-          <el-row :gutter="20">
-            <el-col :span="12" v-for="(dataGroup, index) in dataGroups" :key="dataGroup.name" style="padding-top: 20px;">
-              <data-group :info="dataGroup" @click.native="editDataGroup(dataGroup, index)"></data-group>
-            </el-col>
-          </el-row>
-        </el-col>
-
-      </el-row>
-      <slot></slot>
-    </el-main>
-
-    <el-footer>EmilyRosina &copy; {{ thisYear }}</el-footer>
-
-  </el-container>
+  </main-layout>
 </template>
 
 <script>
+  import MainLayout from '@/layouts/Main'
   import AddDataGroup from '@/components/DataGroup/Add'
   import EditDataGroup from '@/components/DataGroup/Edit'
   import NewDataGroup from '@/components/DataGroup/New'
@@ -47,6 +40,7 @@
       }
     },
     components: {
+      MainLayout,
       AddDataGroup,
       DataGroup,
       NewDataGroup,
@@ -83,24 +77,5 @@
 </script>
 
 <style lang="scss" scoped>
-  .flex {
-    display: flex;
-    align-items: center;
-  }
-  .el-header {
-    @extend .flex;
-    justify-content: space-between;
-    background: #111;
-    color: gold;
-  }
-  .el-main {
-    background: #444;
-    color: white;
-  }
-  .el-footer {
-    @extend .flex;
-    justify-content: center;
-    background: #222;
-    color: lightseagreen;
-  }
+
 </style>
