@@ -35,10 +35,10 @@
 </template>
 
 <script>
-  import AddDataGroup from '@/components/AddDataGroup'
-  import EditDataGroup from '@/components/EditDataGroup'
+  import AddDataGroup from '@/components/DataGroup/Add'
+  import EditDataGroup from '@/components/DataGroup/Edit'
+  import NewDataGroup from '@/components/DataGroup/New'
   import DataGroup from '@/components/DataGroup'
-  import NewDataGroup from '@/components/NewDataGroup'
 
   export default {
     data () {
