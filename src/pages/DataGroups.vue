@@ -22,6 +22,9 @@
       </el-col>
 
     </el-row>
+    <el-row>
+      <user-story></user-story>
+    </el-row>
 
   </main-layout>
 </template>
@@ -32,6 +35,7 @@
   import EditDataGroup from '@/components/DataGroup/Edit'
   import NewDataGroup from '@/components/DataGroup/New'
   import DataGroup from '@/components/DataGroup'
+  import UserStory from '../components/UserStory'
 
   export default {
     data () {
@@ -44,7 +48,8 @@
       AddDataGroup,
       DataGroup,
       NewDataGroup,
-      EditDataGroup
+      EditDataGroup,
+      UserStory
     },
     methods: {
       editDataGroup (dataGroup, index) {

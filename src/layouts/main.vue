@@ -1,9 +1,13 @@
 <template>
-  <el-container>
+  <el-container class="main-layout">
 
     <el-header>User Story Builder</el-header>
 
     <el-main>
+      <el-tabs v-model="activeTab" @tab-click="handleClick">
+        <el-tab-pane label="Data Groups" name="dataGroups">Data Groups</el-tab-pane>
+        <el-tab-pane label="User Stories" name="userStories">User Stories</el-tab-pane>
+      </el-tabs>
       <slot></slot>
     </el-main>
 
@@ -14,7 +18,16 @@
 
 <script>
   export default {
-
+    data () {
+      return {
+        activeTab: 'dataGroups'
+      }
+    },
+    methods: {
+      handleClick (selectedTab) {
+        this.activeTab = selectedTab
+      }
+    }
   }
 </script>
 
