@@ -27,6 +27,12 @@
       handleClick (selectedTab) {
         this.activeTab = selectedTab
       }
+    },
+    computed: {
+      thisYear () {
+        /* eslint-disable no-new */
+        return (new Date()).getFullYear()
+      }
     }
   }
 </script>
