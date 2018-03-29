@@ -1,0 +1,31 @@
+$linkStates: '&:hover, &:active, &:focus';
+
+// COLOUR
+$orange: #eb9e05;
+
+// PLACHOLDERS
+%flex {
+
+  display: flex;
+  flex-wrap: wrap;
+
+  &--center {
+    text-align: center;
+
+    &--main {
+      @extend %flex;
+      justify-content: center;
+    }
+
+    &--cross {
+      @extend %flex;
+      align-content: center;
+      align-items: center;
+    }
+
+    @extend %flex;
+    @extend %flex--center--main;
+    @extend %flex--center--cross;
+  }
+
+}

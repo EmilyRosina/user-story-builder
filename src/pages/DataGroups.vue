@@ -35,7 +35,7 @@
   import EditDataGroup from '@/components/DataGroup/Edit'
   import NewDataGroup from '@/components/DataGroup/New'
   import DataGroup from '@/components/DataGroup'
-  import UserStory from '../components/UserStory'
+  import UserStory from '@/components/UserStory'
 
   export default {
     data () {

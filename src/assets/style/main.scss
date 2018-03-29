@@ -1,17 +1,17 @@
-$linkStates: '&:hover, &:active, &:focus';
+@import './vars';
 
 .el-button--warning.is-plain {
   background: none;
   background-color: none;
-  border-color: #eb9e05;
-  color: #eb9e05;
+  border-color: $orange;
+  color: $orange;
   #{$linkStates} {
     color: #444;
   }
   &.remove, &.add {
     color: white;
     font-weight: 600;
-    border-color: #eb9e05;
+    border-color: $orange;
     #{$linkStates} {
       background: none;
       border-color: #3c3c3c;
@@ -53,10 +53,10 @@ $linkStates: '&:hover, &:active, &:focus';
     background: rgba(0,0,0,0.75);
     border-color: #3c3c3c;
     border-radius: 0;
-    color: #eb9e05;
+    color: $orange;
 
     &:hover, &:focus {
-      border-color: #eb9e05;
+      border-color: $orange;
     }
   }
 }
