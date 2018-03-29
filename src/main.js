@@ -7,14 +7,13 @@ import store from './store'
 import router from './router'
 import ElementUI from 'element-ui'
 import Icon from 'vue-awesome/components/Icon'
-import 'vue-awesome/icons'
-import 'element-ui/lib/theme-chalk/index.css'
-import '@/assets/main.scss'
+import VueAwesomeIcons from 'vue-awesome/icons'
+import ElementUIStyles from 'element-ui/lib/theme-chalk/index.css'
+import GlobalStyles from '@/assets/style/main.scss'
+import GlobalComponents from '@/components/_global'
 
 Vue.use(ElementUI)
 Vue.component('icon', Icon)
-// require('element-ui/lib/theme-chalk/index.css')
-// require('@/assets/main.scss')
 
 Vue.config.productionTip = false
 
