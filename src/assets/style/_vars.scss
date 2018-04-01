@@ -9,6 +9,10 @@ $orange: #eb9e05;
   display: flex;
   flex-wrap: wrap;
 
+  &--no-wrap {
+    flex-wrap: nowrap;
+  }
+
   &--center {
     text-align: center;
 
@@ -28,4 +32,13 @@ $orange: #eb9e05;
     @extend %flex--center--cross;
   }
 
+}
+
+%reset {
+
+  &--button {
+    outline: none;
+    border: none;
+    cursor: pointer;
+  }
 }

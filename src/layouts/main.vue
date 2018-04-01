@@ -1,14 +1,26 @@
 <template>
   <el-container class="main-layout">
 
-    <el-header>User Story Builder</el-header>
+    <el-header>
+      <p>User Story Builder</p>
+      <div class="project-bar">
+        <el-input value="Project 1" class="project-bar__name" />
+        <icon name="cog" class="project-bar__icon"></icon>
+      </div>
+    </el-header>
 
     <el-main>
-      <!-- <el-tabs v-model="activeTab" @tab-click="handleClick">
-        <el-tab-pane label="Data Groups" name="dataGroups">Data Groups</el-tab-pane>
-        <el-tab-pane label="User Stories" name="userStories">User Stories</el-tab-pane>
-      </el-tabs> -->
+
+      <div class="button-bar">
+        <button
+          :class="['button-bar__button', {'active': tabIsActive(tab.name)}]"
+          v-for="tab in tabs" :key="tab.name"
+          @click="handleTabClick(tab.name)">
+            {{ tab.label }}
+        </button>
+      </div>
       <slot></slot>
+
     </el-main>
 
     <el-footer>EmilyRosina &copy; {{ thisYear }}</el-footer>
@@ -20,18 +32,38 @@
   export default {
     data () {
       return {
-        activeTab: 'dataGroups'
+        tabs: [
+          {
+            name: 'dataGroups',
+            label: 'Data Groups'
+          },
+          {
+            name: 'userStories',
+            label: 'User Stories'
+          },
+          {
+            name: 'userJourney',
+            label: 'User Journey'
+          }
+        ]
       }
     },
     methods: {
-      handleClick (selectedTab) {
-        this.activeTab = selectedTab
+      handleTabClick (selectedTab) {
+        this.$store.commit('setActiveTab', { tabName: selectedTab })
+        this.$router.push({ name: selectedTab })
+      },
+      tabIsActive (tabName) {
+        return tabName === this.activeTab
       }
     },
     computed: {
       thisYear () {
         /* eslint-disable no-new */
         return (new Date()).getFullYear()
+      },
+      activeTab () {
+        return this.$store.state.activeTab
       }
     }
   }
@@ -40,10 +72,44 @@
 <style lang="scss" scoped>
   .el-header {
     @extend %flex--center--cross;
+    @extend %flex--no-wrap;
     justify-content: space-between;
     background: #111;
     color: gold;
+    .project-bar {
+      @extend %flex--center--cross;
+      position: relative;
+      &__name {
+        width: initial;
+        input.el-input__inner {
+          padding-right: 3em;
+        }
+      }
+      &__icon {
+        position: absolute;
+        right: 1em;
+      }
+    }
+
   }
+
+  .button-bar {
+    &__button {
+      padding: 1em;
+      background: #111;
+      color: #eee;
+      border-bottom: 3px solid transparent;
+      transition: 0.5s ease;
+      @extend %reset--button;
+
+      &:active,
+      &:hover,
+      &.active {
+        border-color: $orange;
+      }
+    }
+  }
+
   .el-main {
     background: #444;
     color: white;

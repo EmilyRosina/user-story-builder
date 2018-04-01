@@ -1,5 +1,5 @@
 <template>
-  <main-layout>
+  <main-layout slot="content">
 
     <el-row v-if="addingNewDataGroup">
       <new-data-group></new-data-group>
@@ -20,22 +20,16 @@
           </el-col>
         </el-row>
       </el-col>
-
-    </el-row>
-    <el-row>
-      <user-story></user-story>
     </el-row>
 
   </main-layout>
 </template>
 
 <script>
-  import MainLayout from '@/layouts/Main'
   import AddDataGroup from '@/components/DataGroup/Add'
   import EditDataGroup from '@/components/DataGroup/Edit'
   import NewDataGroup from '@/components/DataGroup/New'
   import DataGroup from '@/components/DataGroup'
-  import UserStory from '@/components/UserStory'
 
   export default {
     data () {
@@ -44,12 +38,10 @@
       }
     },
     components: {
-      MainLayout,
       AddDataGroup,
       DataGroup,
       NewDataGroup,
-      EditDataGroup,
-      UserStory
+      EditDataGroup
     },
     methods: {
       editDataGroup (dataGroup, index) {

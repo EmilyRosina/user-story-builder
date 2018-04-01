@@ -3,15 +3,19 @@
 
     <p>User stories</p>
 
+    <el-row>
+      <user-story></user-story>
+    </el-row>
+
   </main-layout>
 </template>
 
 <script>
-  import MainLayout from '@/layouts/Main'
+  import UserStory from '@/components/UserStory'
 
   export default {
     components: {
-      MainLayout
+      UserStory
     }
   }
 </script>
