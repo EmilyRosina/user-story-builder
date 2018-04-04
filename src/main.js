@@ -5,15 +5,11 @@ import Vue from 'vue'
 import App from './App'
 import store from './store'
 import router from './router'
-import ElementUI from 'element-ui'
-import Icon from 'vue-awesome/components/Icon'
-import VueAwesomeIcons from 'vue-awesome/icons'
-import ElementUIStyles from 'element-ui/lib/theme-chalk/index.css'
-import GlobalStyles from '@/assets/style/main.scss'
-import GlobalComponents from '@/components/_global'
 
-Vue.use(ElementUI)
-Vue.component('icon', Icon)
+import plugins from './store/utility/plugins'
+
+import GlobalStyles from '@/assets/style/main.scss'
+import GlobalComponents from './store/utility/globalComponents'
 
 Vue.config.productionTip = false
 
