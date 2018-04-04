@@ -7,7 +7,9 @@
 </template>
 
 <script>
-  export default {
+  import { redirectIfNewUser } from '@/store/utility/mixins'
 
+  export default {
+    mixins: [redirectIfNewUser]
   }
 </script>

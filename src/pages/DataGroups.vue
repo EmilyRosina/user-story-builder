@@ -30,8 +30,10 @@
   import EditDataGroup from '@/components/DataGroup/Edit'
   import NewDataGroup from '@/components/DataGroup/New'
   import DataGroup from '@/components/DataGroup'
+  import { redirectIfNewUser } from '@/store/utility/mixins'
 
   export default {
+    mixins: [redirectIfNewUser],
     data () {
       return {
 

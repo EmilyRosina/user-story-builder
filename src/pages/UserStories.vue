@@ -12,8 +12,10 @@
 
 <script>
   import UserStory from '@/components/UserStory'
+  import {redirectIfNewUser} from '@/store/utility/mixins'
 
   export default {
+    mixins: [redirectIfNewUser],
     components: {
       UserStory
     }
