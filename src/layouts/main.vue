@@ -3,28 +3,32 @@
 
     <el-header>
       <p>User Story Builder</p>
-      <div class="project-bar" v-if="!isNewUser">
-        <el-input value="Project 1" class="project-bar__name" />
-        <icon name="cog" class="project-bar__icon"></icon>
-      </div>
+
+      <project-bar v-if="isReturningUser"></project-bar>
+
     </el-header>
 
     <el-main>
-      <template v-if="!isNewUser">
+
+      <template v-if="isReturningUser">
         <div class="button-bar">
           <button
-            :class="['button-bar__button', {'active': tabIsActive(tab.name)}]"
-            v-for="tab in tabs" :key="tab.name"
-            @click="handleTabClick(tab.name)">
-              {{ tab.label }}
+            :class="['button-bar__button', {active: tabIsActive(tab.name)}]"
+            v-for="tab in tabs"
+            :key="tab.name"
+            @click="handleTabClick(tab.name)"
+            >
+            {{ tab.label }}
           </button>
         </div>
         <slot></slot>
       </template>
-      <template v-else>
-        <h1>Hi Newbie!</h1>
+
+      <template v-if="isNewUser">
+        <h1>Welcome!</h1>
         <slot></slot>
       </template>
+
     </el-main>
 
 
@@ -34,14 +38,13 @@
 </template>
 
 <script>
+  import ProjectBar from '@/components/ProjectBar'
   import { mapGetters } from 'vuex'
 
   export default {
     name: 'main-layout',
-    created () {
-      if (window.localStorage.projectNames) {
-        this.$store.commit('set_new_user', false)
-      }
+    components: {
+      ProjectBar
     },
     data () {
       return {
@@ -72,7 +75,8 @@
     },
     computed: {
       ...mapGetters([
-        'isNewUser'
+        'isNewUser',
+        'isReturningUser'
       ]),
       thisYear () {
         /* eslint-disable no-new */

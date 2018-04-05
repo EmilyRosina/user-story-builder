@@ -1,5 +1,5 @@
 <template>
-  <main-layout slot="content">
+  <main-layout>
 
     <el-row v-if="addingNewDataGroup">
       <new-data-group></new-data-group>
@@ -30,10 +30,10 @@
   import EditDataGroup from '@/components/DataGroup/Edit'
   import NewDataGroup from '@/components/DataGroup/New'
   import DataGroup from '@/components/DataGroup'
-  import { redirectIfNewUser } from '@/store/utility/mixins'
+  import { redirectIfNewUser, test } from '@/store/utility/mixins.js'
 
   export default {
-    mixins: [redirectIfNewUser],
+    mixins: [redirectIfNewUser, test],
     data () {
       return {
 

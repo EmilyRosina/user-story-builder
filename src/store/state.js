@@ -11,16 +11,13 @@ export default {
   // new version; to replace above code with
   active: {
     tab: '',
-    dataGroup: ''
+    dataGroup: '',
+    project: {
+      name: '',
+      dataGroups: [],
+      userStories: [],
+      userJourney: []
+    }
   },
-  mode: {
-    dataGroup: null
-  },
-  projectName: '',
-  projectNames: [],
-  projectData: {
-    dataGroups: [],
-    userStories: [],
-    userJourney: []
-  }
+  projectIds: []
 }

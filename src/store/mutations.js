@@ -2,16 +2,10 @@ export default {
   setActiveTab (state, payload) {
     state.activeTab = payload.tabName
   },
-  switchProject (state, payload) {
-    state.projectName = payload.name
-  },
-  addNewProject (state, payload) {
-    state.projectNames.push(payload.name)
-  },
   setProjectData (state, payload) {
-
+    state.active.project = payload.projectData
   },
-  setProjectNames (state, payload) {
-
+  setProjectIds (state, payload) {
+    state.projectIds = payload.projectIds
   }
 }
