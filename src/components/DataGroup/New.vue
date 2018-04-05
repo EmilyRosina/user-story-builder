@@ -73,7 +73,7 @@
         this.properties.splice(index, 1)
       },
       addNewDataGroup () {
-        this.$store.state.dataGroups.push({
+        this.$store.state.active.dataGroups.push({
           name: this.name,
           properties: this.properties
         })
@@ -85,7 +85,7 @@
     },
     computed: {
       nameAlreadyExists () {
-        return this.$store.state.dataGroups.map(dataGroup => {
+        return this.$store.state.active.dataGroups.map(dataGroup => {
           return dataGroup.name
         }).includes(this.name)
       },

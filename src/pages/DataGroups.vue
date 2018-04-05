@@ -30,10 +30,10 @@
   import EditDataGroup from '@/components/DataGroup/Edit'
   import NewDataGroup from '@/components/DataGroup/New'
   import DataGroup from '@/components/DataGroup'
-  import { redirectIfNewUser, test } from '@/store/utility/mixins.js'
+  import { redirectIfNewUser } from '@/store/utility/mixins'
 
   export default {
-    mixins: [redirectIfNewUser, test],
+    mixins: [redirectIfNewUser],
     data () {
       return {
 
@@ -47,29 +47,26 @@
     },
     methods: {
       editDataGroup (dataGroup, index) {
-        this.$store.state.selectedDataGroup.index = index
-        this.$store.state.selectedDataGroup.dataGroup = dataGroup
-        this.$store.state.editingDataGroup = true
+        this.$store.getters.selected.dataGroup.index = index
+        this.$store.getters.selected.dataGroup.dataGroup = dataGroup
+        this.$store.state.ui.dataGroup.editing = true
       },
       addNewDataGroup () {
         this.$store.state.addingNewDataGroup = true
       }
     },
     computed: {
-      state () {
-        return this.$store.state
-      },
       thisYear () {
         return (new Date()).getFullYear()
       },
       dataGroups () {
-        return this.$store.state.dataGroups
+        return this.$store.state.active.dataGroups
       },
       addingNewDataGroup () {
-        return this.$store.state.addingNewDataGroup
+        return this.$store.state.ui.dataGroup.adding
       },
       editingDataGroup () {
-        return this.$store.state.editingDataGroup
+        return this.$store.state.ui.dataGroup.editing
       }
     }
   }

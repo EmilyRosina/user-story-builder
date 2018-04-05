@@ -1,6 +1,6 @@
 export default {
   setActiveTab (state, payload) {
-    state.activeTab = payload.tabName
+    state.active.tab = payload.tabName
   },
   setProjectData (state, payload) {
     state.active.project = payload.projectData

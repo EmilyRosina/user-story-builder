@@ -55,9 +55,9 @@
       addProperty
     },
     mounted () {
-      this.index = this.$store.state.selectedDataGroup.index
-      this.name = this.$store.state.selectedDataGroup.dataGroup.name
-      this.properties = this.$store.state.selectedDataGroup.dataGroup.properties
+      this.index = this.$store.getters.selected.dataGroup.index
+      this.name = this.$store.getters.selected.dataGroup.dataGroup.name
+      this.properties = this.$store.getters.selected.dataGroup.dataGroup.properties
     },
     data () {
       return {
@@ -84,33 +84,35 @@
         this.properties.splice(index, 1)
       },
       saveDataGroup () {
+        // FIXME: move to action/mutation
         if (this.properties[0] && !this.properties[0].value) {
           this.removeOption(0)
         }
-        this.$store.state.dataGroups[this.index] = {
+        this.$store.state.active.dataGroups[this.index] = {
           name: this.name,
           properties: this.properties
         }
-        this.$store.state.selectedDataGroup.index = null
-        this.$store.state.selectedDataGroup.dataGroup = null
+        this.$store.getters.selected.dataGroup.index = null
+        this.$store.getters.selected.dataGroup.dataGroup = null
         this.cancel()
       },
       deleteDataGroup () {
-        this.$store.state.dataGroups.splice(this.index, 1)
-        this.$store.state.selectedDataGroup.index = null
-        this.$store.state.selectedDataGroup.dataGroup = null
+        // FIXME: move to action/mutation
+        this.$store.state.active.dataGroups.splice(this.index, 1)
+        this.$store.getters.selected.dataGroup.index = null
+        this.$store.getters.selected.dataGroup.dataGroup = null
         this.cancel()
       },
       cancel () {
-        this.$store.state.editingDataGroup = false
+        this.$store.state.ui.dataGroup.editing = false
       }
     },
     computed: {
       matchesOriginalName () {
-        return this.$store.state.dataGroups[this.index].name === this.name
+        return this.$store.state.active.dataGroups[this.index].name === this.name
       },
       nameAlreadyExists () {
-        return this.$store.state.dataGroups.map(dataGroup => {
+        return this.$store.state.active.dataGroups.map(dataGroup => {
           return dataGroup.name
         }).includes(this.name)
       },
@@ -119,9 +121,6 @@
       },
       hasProperties () {
         return this.properties.length > 0
-      },
-      onlyOneProperty () {
-        return this.propertiesLength === 1
       },
       propertiesLength () {
         return this.properties.length

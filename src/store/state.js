@@ -1,17 +1,7 @@
 export default {
-  dataGroups: [],             // TODO: remove
-  selectedDataGroup: {        // TODO: remove
-    index: null,
-    dataGroup: null
-  },
-  editingDataGroup: false,    // TODO: remove
-  addingNewDataGroup: false,  // TODO: remove
-  activeTab: 'dataGroups',    // TODO: remove
-
-  // new version; to replace above code with
   active: {
     tab: '',
-    dataGroup: '',
+    dataGroupIndex: null,
     project: {
       name: '',
       dataGroups: [],
@@ -19,5 +9,11 @@ export default {
       userJourney: []
     }
   },
-  projectIds: []
+  projectIds: [],
+  ui: {
+    dataGroup: {
+      adding: false,
+      editing: false
+    }
+  }
 }

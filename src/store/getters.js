@@ -17,5 +17,10 @@ export default {
   },
   template () {
     return template
+  },
+  selected (state) {
+    return {
+      dataGroup: state.active.project.dataGroups[state.active.dataGroupIndex]
+    }
   }
 }
