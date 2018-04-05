@@ -2,7 +2,7 @@
   <el-container class="main-layout">
 
     <el-header>
-      <p>User Story Builder</p>
+      <router-link tag="p" to="/" class="title">User Story Builder</router-link>
 
       <project-bar v-if="isReturningUser"></project-bar>
 
@@ -58,8 +58,8 @@
             label: 'User Stories'
           },
           {
-            name: 'userJourney',
-            label: 'User Journey'
+            name: 'userJourneys',
+            label: 'User Journeys'
           }
         ]
       }
@@ -83,7 +83,7 @@
         return (new Date()).getFullYear()
       },
       activeTab () {
-        return this.$store.state.activeTab
+        return this.$store.state.active.tab
       }
     }
   }
@@ -96,6 +96,9 @@
     justify-content: space-between;
     background: #111;
     color: gold;
+    .title {
+      cursor: pointer;
+    }
     .project-bar {
       @extend %flex--center--cross;
       position: relative;

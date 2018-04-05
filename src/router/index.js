@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Home from '@/pages/Home'
 import DataGroups from '@/pages/DataGroups'
 import UserStories from '@/pages/UserStories'
-import UserJourney from '@/pages/UserJourney'
+import UserJourneys from '@/pages/UserJourneys'
 import PageNotFound from '@/pages/PageNotFound'
 
 Vue.use(Router)
@@ -28,8 +28,8 @@ export default new Router({
     },
     {
       path: '/journey',
-      name: 'userJourney',
-      component: UserJourney
+      name: 'userJourneys',
+      component: UserJourneys
     },
     {
       path: '*',
