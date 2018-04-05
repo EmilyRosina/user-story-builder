@@ -1,0 +1,74 @@
+@import '../vars';
+
+[class^=el-] {
+  font-family: arial;
+}
+
+.el-button--warning.is-plain {
+  background: none;
+  background-color: none;
+  border-color: $orange;
+  color: $orange;
+  #{$linkStates} {
+    color: #444;
+  }
+  &.remove, &.add {
+    color: white;
+    font-weight: 600;
+    border-color: $orange;
+    #{$linkStates} {
+      background: none;
+      border-color: #3c3c3c;
+    }
+  }
+  &.remove {
+    &:hover {
+      background-color: $red;
+      border-color: $red;
+    }
+  }
+  &.add {
+    &:hover {
+      background-color: $green;
+      border-color: $green;
+    }
+  }
+  &.is-disabled {
+    background: #222;
+    color: #444;
+    border-color: #3c3c3c;
+    #{$linkStates} {
+      background: #222;
+      color: #444;
+      border-color: #3c3c3c;
+    }
+  }
+}
+
+.el-input {
+  &.centered {
+    .el-input__inner {
+      text-align: center;
+    }
+  }
+  .el-input__inner {
+    background: rgba(0,0,0,0.75);
+    border-color: #3c3c3c;
+    border-radius: 0;
+    color: $orange;
+
+    &:hover, &:focus {
+      border-color: $orange;
+    }
+  }
+}
+
+.el-button-group.joint-input {
+  .el-button {
+    border-color: #3c3c3c;
+    &:first-child {
+      border-radius: 0;
+      border-left: 0;
+    }
+  }
+}

@@ -1,6 +1,9 @@
 $linkStates: '&:hover, &:active, &:focus';
 
 // COLOUR
+$red-dark: #b10000;
+$red: tomato;
+$green: limegreen;
 $orange: #eb9e05;
 
 // PLACHOLDERS
@@ -33,7 +36,6 @@ $orange: #eb9e05;
   }
 
 }
-
 %reset {
 
   &--button {
