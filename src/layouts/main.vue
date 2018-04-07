@@ -117,6 +117,7 @@
   }
 
   .button-bar {
+    margin-bottom: 2em;
     &__button {
       padding: 1em;
       background: #111;
