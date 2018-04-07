@@ -1,3 +1,5 @@
+<!-- TODO: REMOVE -->
+
 <template>
   <el-col type="flex" :span="12" :offset="6" class="edit-data-group">
     <el-row type="flex" justify="end" class="close-bar">
@@ -29,7 +31,7 @@
         </template>
         <template v-else>
           <el-row type="flex" class="no-gutter">
-            <add-property @click.native="addOption()"></add-property>
+            <el-button type="warning" plain @click.native="addOption()" class="U--full-width">Add Property</el-button>
           </el-row>
         </template>
       </el-col>
@@ -48,12 +50,7 @@
 </template>
 
 <script>
-  import addProperty from './AddProperty'
-
   export default {
-    components: {
-      addProperty
-    },
     mounted () {
       this.index = this.$store.getters.selected.dataGroup.index
       this.name = this.$store.getters.selected.dataGroup.dataGroup.name

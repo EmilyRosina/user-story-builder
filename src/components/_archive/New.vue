@@ -1,3 +1,5 @@
+<!-- TODO: REMOVE -->
+
 <template>
   <el-col type="flex" :span="12" :offset="6" class="new-data-group">
     <el-row type="flex" justify="end" class="close-bar">
@@ -10,8 +12,7 @@
         <el-row type="flex">
           <el-input v-model.trim="name" class="centered" @blur="firstChance = false"></el-input>
         </el-row>
-        <span v-if="nameNotEntered && !firstChance" class="rules">You need to enter a name</span>
-        <span v-else-if="nameAlreadyExists" class="rules">You already have a data group with that name</span>
+        <el-tag v-for="(error, index) in errors" :key="index" type="danger" size="mini">{{ error }}</el-tag>
       </el-col>
     </el-row>
 
@@ -29,26 +30,21 @@
         </template>
         <template v-else>
           <el-row type="flex" class="no-gutter">
-            <add-property @click.native="addOption()"></add-property>
+            <el-button type="warning" plain @click.native="addOption()" class="U--full-width">Add Property</el-button>
           </el-row>
         </template>
       </el-col>
     </el-row>
 
     <el-row class="section">
-      <el-button type="warning" plain :disabled="nameNotEntered || nameAlreadyExists" @click="addNewDataGroup">Add</el-button>
+      <el-button type="warning" plain :disabled="!validated" @click="addNewDataGroup">Add</el-button>
     </el-row>
 
   </el-col>
 </template>
 
 <script>
-  import addProperty from './AddProperty'
-
   export default {
-    components: {
-      addProperty
-    },
     data () {
       return {
         firstChance: true,
@@ -77,29 +73,43 @@
           name: this.name,
           properties: this.properties
         })
-        this.$store.state.addingNewDataGroup = false
+        this.cancel()
       },
       cancel () {
-        this.$store.state.addingNewDataGroup = false
+        this.$store.state.ui.dataGroup.adding = false
       }
     },
     computed: {
-      nameAlreadyExists () {
-        return this.$store.state.active.dataGroups.map(dataGroup => {
-          return dataGroup.name
-        }).includes(this.name)
+      validationChecks () {
+        return {
+          hasName: this.name !== '',
+          nameIsUnique: !this.$store.state.active.project.dataGroups
+            .map(dataGroup => {
+              return dataGroup.name
+            })
+            .includes(this.name),
+          typing: this.firstChance === false
+        }
       },
-      nameNotEntered () {
-        return this.name === ''
+      errors () {
+        let errors = []
+        let check = this.validationChecks
+        if (check.typing) {
+          if (!check.hasName) { errors.push('You must supply a name') }
+          if (!check.nameIsUnique) { errors.push('Name already exists') }
+        }
+        return errors
+      },
+      validated () {
+        return !Object.values(this.validationChecks).includes(false)
       },
       hasProperties () {
         return this.properties.length > 0
       },
-      onlyOneProperty () {
-        return this.propertiesLength === 1
-      },
-      propertiesLength () {
-        return this.properties.length
+      propertyNames () {
+        return this.properties.map(property => {
+          return property.value
+        })
       }
     }
   }
@@ -107,9 +117,9 @@
 
 <style lang="scss" scoped>
   @mixin hover-focus-active {
-      &:hover, &:focus, &:active {
-          @content;
-      }
+    &:hover, &:focus, &:active {
+      @content;
+    }
   }
 
   .title {
@@ -132,6 +142,8 @@
     background: rgba(0,0,0,0.45);
     padding: 1em 2em;
     min-width: 25em;
+    float: unset;
+    margin: auto;
   }
   .el-input {
     flex: 1 0 auto;
