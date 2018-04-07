@@ -1,73 +1,39 @@
 <template>
   <main-layout>
 
-    <el-row v-if="addingNewDataGroup">
-      <new-data-group></new-data-group>
-    </el-row>
+    <el-row>
 
-    <el-row v-if="editingDataGroup">
-      <edit-data-group></edit-data-group>
-    </el-row>
+      <data-group mode="add"  v-if="addingDataGroup"></data-group>
+      <data-group mode="edit" v-if="editingDataGroup"></data-group>
+      <btn-add-data-group v-else></btn-add-data-group>
 
-    <el-row style="padding: 2em;" v-if="!addingNewDataGroup && !editingDataGroup" :gutter="20">
-      <el-col :span="6" style="padding-top: 20px;">
-        <add-data-group @click.native="addNewDataGroup" v-if="!addingNewDataGroup && !editingDataGroup"></add-data-group>
-      </el-col>
-      <el-col :span="18">
-        <el-row :gutter="20">
-          <el-col :span="12" v-for="(dataGroup, index) in dataGroups" :key="dataGroup.name" style="padding-top: 20px;">
-            <data-group :info="dataGroup" @click.native="editDataGroup(dataGroup, index)"></data-group>
-          </el-col>
-        </el-row>
-      </el-col>
+      <data-group-list v-if="haveDataGroups"></data-group-list>
+
     </el-row>
 
   </main-layout>
 </template>
 
 <script>
-  import AddDataGroup from '@/components/DataGroup/Add'
-  import EditDataGroup from '@/components/DataGroup/Edit'
-  import NewDataGroup from '@/components/DataGroup/New'
   import DataGroup from '@/components/DataGroup'
+  import BtnAddDataGroup from '@/components/DataGroup/Add'
+  import DataGroupList from '@/components/DataGroup/List'
+  import { mapState } from 'vuex'
   import { redirectIfNewUser } from '@/store/utility/mixins'
 
   export default {
     mixins: [redirectIfNewUser],
-    data () {
-      return {
-
-      }
-    },
     components: {
-      AddDataGroup,
+      BtnAddDataGroup,
       DataGroup,
-      NewDataGroup,
-      EditDataGroup
-    },
-    methods: {
-      editDataGroup (dataGroup, index) {
-        this.$store.getters.selected.dataGroup.index = index
-        this.$store.getters.selected.dataGroup.dataGroup = dataGroup
-        this.$store.state.ui.dataGroup.editing = true
-      },
-      addNewDataGroup () {
-        this.$store.state.addingNewDataGroup = true
-      }
+      DataGroupList
     },
     computed: {
-      thisYear () {
-        return (new Date()).getFullYear()
-      },
-      dataGroups () {
-        return this.$store.state.active.dataGroups
-      },
-      addingNewDataGroup () {
-        return this.$store.state.ui.dataGroup.adding
-      },
-      editingDataGroup () {
-        return this.$store.state.ui.dataGroup.editing
-      }
+      ...mapState({
+        haveDataGroups: state => state.active.project.dataGroups.length > 0,
+        addingDataGroup: state => state.ui.dataGroup.adding,
+        editingDataGroup: state => state.ui.dataGroup.editing
+      })
     }
   }
 </script>

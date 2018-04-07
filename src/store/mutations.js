@@ -1,11 +1,22 @@
+import Vue from 'vue'
+
 export default {
   setActiveTab (state, payload) {
     state.active.tab = payload.tabName
   },
-  setProjectData (state, payload) {
-    state.active.project = payload.projectData
+  addProject (state, payload) {
+    Vue.set(state.projects, payload.id, payload.name)
   },
-  setProjectIds (state, payload) {
-    state.projectIds = payload.projectIds
+  setProjectData (state, payload) {
+    state.active.project = {
+      id: payload.id,
+      ...payload.project
+    }
+  },
+  setProjects (state, payload) {
+    state.projects = payload.projects
+  },
+  deleteAllProjects (state) {
+    state.projects = {}
   }
 }

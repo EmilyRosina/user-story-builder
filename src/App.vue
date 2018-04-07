@@ -9,8 +9,8 @@
     name: 'app',
     created () {
       this.$store.dispatch('GET_PROJECT_IDS')
-      if (this.$store.state.projectIds.length > 0) {
-        const projectId = this.$store.state.projectIds[0]
+      if (this.$store.getters.projectIds.length > 0) {
+        const projectId = this.$store.getters.projectIds[0]
         this.$store.dispatch('GET_PROJECT_DATA', { projectId })
       }
     }

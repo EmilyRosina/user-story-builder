@@ -3,13 +3,14 @@ export default {
     tab: '',
     dataGroupIndex: null,
     project: {
+      id: '',
       name: '',
       dataGroups: [],
       userStories: [],
       userJourney: []
     }
   },
-  projectIds: [],
+  projects: {},
   ui: {
     dataGroup: {
       adding: false,
