@@ -7,6 +7,7 @@ import store from './store'
 import router from './router'
 
 import plugins from './store/utility/plugins'
+import filters from './store/utility/filters'
 
 import GlobalStyles from '@/assets/style/main.scss'
 import GlobalComponents from './store/utility/globalComponents'
