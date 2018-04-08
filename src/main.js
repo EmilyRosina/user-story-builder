@@ -12,6 +12,7 @@ import filters from './store/utility/filters'
 import GlobalStyles from '@/assets/style/main.scss'
 import GlobalComponents from './store/utility/globalComponents'
 
+Vue.config.devtools = true
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

@@ -10,6 +10,7 @@
   import { redirectIfNewUser } from '@/store/utility/mixins'
 
   export default {
+    name: 'user-journeys',
     mixins: [redirectIfNewUser]
   }
 </script>

@@ -15,6 +15,7 @@
   import {redirectIfNewUser} from '@/store/utility/mixins'
 
   export default {
+    name: 'user-stories',
     mixins: [redirectIfNewUser],
     components: {
       UserStory

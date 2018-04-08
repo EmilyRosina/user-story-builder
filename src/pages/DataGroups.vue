@@ -22,6 +22,7 @@
   import { redirectIfNewUser } from '@/store/utility/mixins'
 
   export default {
+    name: 'data-groups',
     mixins: [redirectIfNewUser],
     components: {
       BtnAddDataGroup,
