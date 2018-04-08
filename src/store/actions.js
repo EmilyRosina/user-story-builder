@@ -1,9 +1,9 @@
 export default {
-  GET_PROJECT_IDS (context) {
+  GET_PROJECTS (context) {
     let projects = {}
     Object.keys(localStorage)
       .filter(key => { return context.getters.regex.isProject.test(key) })
-      .forEach(key => { projects[key] = localStorage[key] })
+      .forEach(key => { projects[key] = JSON.parse(localStorage[key]) })
     context.commit('setProjects', { projects })
   },
   ADD_PROJECT (context, payload) {

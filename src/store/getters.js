@@ -15,8 +15,10 @@ export default {
   projectIds (state) {
     return Object.keys(state.projects)
   },
-  projectNames (state) {
-    return Object.values(state.projects)
+  projectNames (state, getters) {
+    return getters.projectIds.map(projectId => {
+      return state.projects[projectId].name
+    })
   },
   template () {
     return template

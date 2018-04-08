@@ -1,5 +1,6 @@
 <template>
   <el-col type="flex" :span="12" :offset="6" class="edit-data-group">
+
     <el-row type="flex" justify="end" class="close-bar">
       <icon name="times" class="icon" scale="1.5" @click.native="cancel"></icon>
     </el-row>

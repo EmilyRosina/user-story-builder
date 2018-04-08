@@ -5,13 +5,10 @@ export default {
     state.active.tab = payload.tabName
   },
   addProject (state, payload) {
-    Vue.set(state.projects, payload.id, payload.name)
+    Vue.set(state.projects, payload.id, payload)
   },
   setProjectData (state, payload) {
-    state.active.project = {
-      id: payload.id,
-      ...payload.project
-    }
+    state.active.project = payload.project
   },
   setProjects (state, payload) {
     state.projects = payload.projects
