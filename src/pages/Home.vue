@@ -78,7 +78,8 @@
           message: 'added',
           type: 'success',
           showClose: false,
-          duration: 1500
+          duration: 1500,
+          position: 'bottom-right'
         })
         this.reset()
       },
