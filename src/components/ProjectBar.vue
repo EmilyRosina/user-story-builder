@@ -90,7 +90,10 @@
       },
       renameProject () {
         this.closeOptions()
-        this.$message(`this is ready to go! Rename ${this.active.project.name} to ${this.options.newName}`)
+        this.$message({
+          message: `this is ready to go! Rename ${this.active.project.name} to ${this.options.newName}`,
+          type: 'success'
+        })
       }
     }
   }
