@@ -51,7 +51,7 @@
       text-align: center;
     }
   }
-  .el-input__inner {
+  &__inner {
     background: rgba(0,0,0,0.75);
     border-color: #3c3c3c;
     border-radius: 0;
@@ -59,6 +59,15 @@
 
     &:hover, &:focus {
       border-color: $orange;
+    }
+  }
+  &.has-errors {
+    .el-input__inner {
+      border-color: $red;
+      #{linkStates} {
+        border-color: $red;
+      }
+
     }
   }
 }
@@ -69,6 +78,67 @@
     &:first-child {
       border-radius: 0;
       border-left: 0;
+    }
+  }
+}
+
+.el-dialog {
+  background: $grey;
+  &__wrapper {
+    background: transparentize(black, 0.5)
+  }
+  &__headerbtn {
+    #{$linkStates} {
+      .el-dialog__close {
+        color: $gold;
+      }
+    }
+  }
+  &__title {
+    color: white;
+    text-align: left;
+    display: block;
+  }
+  &__body {
+    // my additions
+    .section {
+      background: transparentize($grey-dark, 0.75);
+      padding: 1em;
+      &__title {
+        color: $orange;
+        margin: 0;
+        text-align: left;
+      }
+    }
+  }
+  &__footer {
+    text-align: center;
+    .cancel.el-button.is-plain:not(:hover):not(:active) {
+      border-color: #f56c6c;
+    }
+  }
+}
+
+.is-plain {
+  &.el-button {
+    transition: 0.5s;
+    &:not(:hover):not(:active):not(:focus) {
+      background: none;
+    }
+    &--default { border-color: #A6A9AD; }
+    &--primary { border-color: #66B1FF; }
+    &--success { border-color: #85CE61; }
+    &--info    { border-color: #A6A9AD; }
+    &--warning { border-color: #E6A23C; }
+    &--danger  { border-color: #F56C6C; }
+    &.is-disabled {
+      border-color: transparentize($grey-dark, 0.65);
+      color: transparentize($grey-dark, 0.65);
+      #{$linkStates} {
+        border-color: transparent;
+        background: transparentize($grey-dark, 0.75);
+        color: $grey;
+      }
     }
   }
 }
