@@ -11,7 +11,7 @@
       this.$store.dispatch('GET_PROJECTS')
       if (this.$store.getters.projectIds.length > 0) {
         const projectId = this.$store.getters.projectIds[0]
-        this.$store.dispatch('GET_PROJECT_DATA', { projectId })
+        this.$store.dispatch('GET_PROJECT_DATA', { id: projectId })
       }
     }
   }

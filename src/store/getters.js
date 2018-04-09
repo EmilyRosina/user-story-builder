@@ -22,10 +22,14 @@ export default {
   },
   template () {
     return template
-  },
-  selected (state) {
-    return {
-      dataGroup: state.active.project.dataGroups[state.active.dataGroupIndex]
-    }
   }
+  // selected (state, getters) {
+  //   let has = {
+  //     projects: getters.isReturningUser,
+  //     dataGroups: state.active.project.dataGroups.length > 0
+  //   }
+  //   return {
+  //     // dataGroup: has.dataGroups // ? state.active.project.dataGroups[state.active.dataGroupIndex] : null
+  //   }
+  // }
 }

@@ -1,12 +1,16 @@
 $linkStates: '&:hover, &:active, &:focus';
 
 // COLOUR
-$red-dark: #b10000;
-$red: tomato;
-$green: limegreen;
-$orange: #eb9e05;
+$red-dark:   #b10000;
+$red:        tomato;
+$green:      limegreen;
+$orange:     #eb9e05;
+$gold:       gold;
+$grey-dark:  #111;
+$grey:       #444;
+$grey-light: #eee;
 
-// PLACHOLDERS
+// PLACEHOLDERS
 %flex {
 
   display: flex;

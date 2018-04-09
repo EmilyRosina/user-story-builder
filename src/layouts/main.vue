@@ -39,7 +39,7 @@
 
 <script>
   import ProjectBar from '@/components/ProjectBar'
-  import { mapGetters } from 'vuex'
+  import { mapGetters, mapState } from 'vuex'
 
   export default {
     name: 'main-layout',
@@ -70,7 +70,7 @@
         this.$router.push({ name: selectedTab })
       },
       tabIsActive (tabName) {
-        return tabName === this.activeTab
+        return tabName === this.active.tab
       }
     },
     computed: {
@@ -78,12 +78,12 @@
         'isNewUser',
         'isReturningUser'
       ]),
+      ...mapState([
+        'active'
+      ]),
       thisYear () {
         /* eslint-disable no-new */
-        return (new Date()).getFullYear()
-      },
-      activeTab () {
-        return this.$store.state.active.tab
+        return new Date().getFullYear()
       }
     }
   }
