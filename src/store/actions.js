@@ -6,24 +6,32 @@ export default {
       .forEach(key => { projects[key] = JSON.parse(localStorage[key]) })
     context.commit('setProjects', { projects })
   },
+
+  // payload: { id, name }
   ADD_PROJECT (context, payload) {
-    // add project to localStorage (id, name, data)
-    localStorage[payload.id] = JSON.stringify(payload.project)
-    // add project to store (id: name)
-    context.commit('addProject', {
-      id: payload.id,
-      name: payload.project.name
-    })
-    // add project to store.state.active.project
-    context.commit('setProjectData', {
-      id: payload.id,
-      project: payload.project
-    })
+    context.commit('localStorage__updateProject', payload)
+    let project = Object.assign({}, { id: payload.id }, payload.project)
+    console.log(project)
+    context.commit('addProject', Object.assign({}, project))
+    context.commit('setProjectData', Object.assign({}, project))
   },
+
+  // payload: { id, name }
+  RENAME_PROJECT (context, payload) {
+    const projectId = context.state.active.project.id
+    const project = {
+      name: payload.name,
+      dataGroups: context.state.active.project.dataGroups,
+      userStories: context.state.active.project.userStories,
+      userJourneys: context.state.active.project.userJourneys
+    }
+    context.commit('localStorage__updateProject', { id: projectId, project })
+    context.commit('renameProject', payload.name)
+  },
+
+  // payload: { id, name }
   GET_PROJECT_DATA (context, payload) {
-    let projectData = JSON.parse(localStorage[payload.projectId])
-    context.commit('setProjectData', {
-      project: Object.assign({}, { id: payload.id }, projectData)
-    })
+    let project = JSON.parse(localStorage[payload.id])
+    context.commit('setProjectData', Object.assign({}, { id: payload.id }, project))
   }
 }

@@ -89,10 +89,16 @@
         this.$router.push({ name: 'home' })
       },
       renameProject () {
-        this.closeOptions()
-        this.$message({
-          message: `this is ready to go! Rename ${this.active.project.name} to ${this.options.newName}`,
-          type: 'success'
+        const oldName = this.active.project.name
+        this.$store.dispatch('RENAME_PROJECT', {
+          name: this.options.newName
+        })
+        .then(() => {
+          this.closeOptions()
+          this.$message({
+            message: `Renamed ${oldName} to ${this.options.newName}`,
+            type: 'success'
+          })
         })
       }
     }
