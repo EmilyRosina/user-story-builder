@@ -23,9 +23,10 @@ export default {
   template () {
     return template
   },
-  selected (state) {
+  selected (state, getters) {
+    let hasProj = getters.isReturningUser
     return {
-      dataGroup: state.active.project.dataGroups[state.active.dataGroupIndex]
+      dataGroup: hasProj ? state.active.project.dataGroups[state.active.dataGroupIndex] : null
     }
   }
 }

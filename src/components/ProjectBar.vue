@@ -77,7 +77,7 @@
             type: 'warning',
             center: true
           })
-          .then(this.deleteAllProjects)
+          .then(this.deleteAllProjects())
           .catch(() => {
           })
       },
@@ -89,7 +89,7 @@
         this.$router.push({ name: 'home' })
       },
       renameProject () {
-        this.options.show = false
+        this.closeOptions()
         this.$message(`this is ready to go! Rename ${this.active.project.name} to ${this.options.newName}`)
       }
     }
