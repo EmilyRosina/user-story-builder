@@ -27,7 +27,7 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
+  import { mapGetters, mapState } from 'vuex'
 
   export default {
     name: 'home',
@@ -44,10 +44,13 @@
         'isReturningUser',
         'template'
       ]),
+      ...mapState([
+        'projects'
+      ]),
       validationChecks () {
         return {
           hasName: this.newProjectName !== '',
-          nameIsUnique: !Object.values(this.$store.state.projects)
+          nameIsUnique: !Object.values(this.projects)
             .includes(this.newProjectName),
           typing: this.typing
         }
