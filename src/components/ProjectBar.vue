@@ -1,8 +1,22 @@
 <template>
   <div class="project-bar">
     <h4 class="project-name">{{ active.project.name }}</h4>
-    <el-button type="info" plain icon="el-icon-more" circle size="mini" class="icon--info" @click="openOptions"></el-button>
-    <el-button type="danger" plain icon="el-icon-delete" circle size="mini" class="icon--delete" @click="deleteAllProjectsBuffer"></el-button>
+    <el-button type="info" plain icon="el-icon-more" circle size="mini" class="icon--info" v-popover:options></el-button>
+    <!-- <el-button type="danger" plain icon="el-icon-delete" circle size="mini" class="icon--delete" @click="deleteAllProjectsBuffer"></el-button> -->
+
+    <el-popover trigger="click" ref="options" placement="bottom-end" :visible-arrow="false" popper-class="options">
+      <el-menu>
+        <el-menu-item-group title="Project options">
+          <el-menu-item index="rename_project">Rename <icon name="pencil-alt" /></el-menu-item>
+          <el-menu-item index="switch_project">Switch <icon name="sign-in-alt" /></el-menu-item>
+          <el-menu-item index="delete_project" class="danger">Delete <icon name="trash-alt" /></el-menu-item>
+        </el-menu-item-group>
+        <el-menu-item-group title="App options">
+          <el-menu-item index="add_project" class="success">Add new project <icon name="plus" /></el-menu-item>
+          <el-menu-item  index="delete_all_projects" class="danger" @click="deleteAllProjectsBuffer()">Delete all projects <icon name="trash-alt" /></el-menu-item>
+        </el-menu-item-group>
+      </el-menu>
+    </el-popover>
 
     <el-dialog
       title="Project options"
@@ -16,7 +30,6 @@
         </p>
       </section>
       <span slot="footer">
-        <!-- <el-button @click="closeOptions" plain type="danger" class="cancel">Cancel</el-button> -->
         <el-button plain @click="renameProject" type="success" :disabled="!validated" class="U--full-width">Save</el-button>
       </span>
     </el-dialog>
@@ -77,7 +90,9 @@
             type: 'warning',
             center: true
           })
-          .then(this.deleteAllProjects())
+          .then(() => {
+            this.deleteAllProjects()
+          })
           .catch(() => {
           })
       },
@@ -129,6 +144,11 @@
       border: 2px solid $clr;
       color: $clr;
     }
+  }
 
+  .options {
+    .fa-icon {
+      padding-left: 1em;
+    }
   }
 </style>
