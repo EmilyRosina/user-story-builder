@@ -1,5 +1,6 @@
 export default {
   active: {
+    modal: '',
     tab: '',
     dataGroupIndex: null,
     project: {
@@ -10,11 +11,11 @@ export default {
       userJourney: []
     }
   },
-  projects: {},
-  ui: {
-    dataGroup: {
-      adding: false,
-      editing: false
-    }
-  }
+  projects: {}
+  // ui: {
+  //   dataGroup: {
+  //     adding: false,
+  //     editing: false
+  //   }
+  // }
 }

@@ -12,6 +12,9 @@ export default {
       isProject: /^proj_/
     }
   },
+  hasMultipleProjects (state, getters) {
+    return Object.keys(state.projects) > 1
+  },
   projectIds (state) {
     return Object.keys(state.projects)
   },
