@@ -106,15 +106,6 @@
       openModal (modalName) {
         this.$store.commit('openModal', modalName)
       },
-      // closeOptions () {
-      //   const mode = this.options.mode
-      //   this.options.show = false
-      //   // to allow for el-dialog to finish close transition
-      //   setTimeout(() => {
-      //     this.options.mode = null
-      //     delete this.options[mode]
-      //   }, 300)
-      // },
       deleteProject () {
         this.$confirm(
           'Are you sure you want to delete this project?', 'Warning', {

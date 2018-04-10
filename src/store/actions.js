@@ -55,7 +55,8 @@ export default {
     .then((stillOk) => {
       if (stillOk) {
         const firstProjectId = context.getters.projectIds[0]
-        context.commit('setProjectData', context.state.projects[firstProjectId])
+        const firstProject = Object.assign({}, context.state.projects[firstProjectId], { id: firstProjectId })
+        context.commit('setProjectData', firstProject)
       }
     })
   },
