@@ -1,12 +1,19 @@
 <template>
   <el-dialog
-    title="add project"
+    title="switch project"
     :visible.sync="showModal"
     width="300px"
     :close-on-click-modal="false"
     @close="closeModal()">
 
     <section class="section">
+      <el-select v-model="selectedProjectId">
+        <el-option
+          v-for="(project, key) in projectMap" :key="key"
+          :label="project"
+          :value="key"
+          :hidden="key === selectedProjectId"/>
+      </el-select>
     </section>
     <span slot="footer">
       <el-button plain @click="switchProject" type="success" :disabled="!validated" class="U--full-width">Switch project</el-button>
@@ -16,66 +23,40 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
+  import { mapState, mapGetters } from 'vuex'
 
   export default {
     name: 'modal-switch-project',
+    created () {
+      this.selectedProjectId = this.active.project.id
+    },
     data () {
       return {
-        mode: 'switch'
+        mode: 'switch',
+        selectedProjectId: ''
       }
     },
     computed: {
       ...mapState([
-        'active'
+        'active',
+        'projects'
+      ]),
+      ...mapGetters([
+        'projectMap'
       ]),
       showModal () {
         return this.active.modal === 'switchProject'
       },
-      validationChecks () {
-        // switch (this.options.mode) {
-        //   case 'rename':
-        //     return {
-        //       for: 'rename',
-        //       hasName: this.options.rename.newName !== '',
-        //       renamed: this.options.rename.newName !== this.active.project.name,
-        //       nameIsUnique: !this.projectNames.includes(this.options.rename.newName)
-        //     }
-        //   case 'add':
-        //     return {
-        //       for: 'add',
-        //       hasName: this.options.add.name !== '',
-        //       isTyping: this.options.add.typing,
-        //       nameIsUnique: this.projectNames.includes(this.options.add.name)
-        //     }
-        //   default:
-        //     return {}
-        // }
-        return {}
-      },
-      errors () {
-        let errors = []
-        // let check = this.validationChecks
-        // switch (this.options.mode) {
-        //   case 'rename':
-        //     if (check.renamed) {
-        //       if (!check.hasName) { errors.push({ text: 'Your project name cannot be blank', type: 'warning' }) }
-        //       if (!check.nameIsUnique) { errors.push({ text: 'Project name already exists', type: 'danger' }) }
-        //     }
-        //     break
-        //   case 'add':
-        //     if (check.isTyping) {
-        //       if (!check.hasName) { errors.push({ text: 'Your project name cannot be blank', type: 'warning' }) }
-        //       if (!check.nameIsUnique) { errors.push({ text: 'Project name already exists', type: 'danger' }) }
-        //     }
-        // }
-        return errors
-      },
       validated () {
-        return !Object.values(this.validationChecks).includes(false)
+        return this.selectedProjectId !== this.active.project.id
       }
     },
     methods: {
+      switchProject () {
+        let project = this.projects[this.selectedProjectId]
+        this.$store.commit('setProjectData', project)
+        this.closeModal()
+      },
       closeModal () {
         this.$store.commit('closeModal')
       }

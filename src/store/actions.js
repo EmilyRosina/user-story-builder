@@ -3,7 +3,7 @@ export default {
     let projects = {}
     Object.keys(localStorage)
       .filter(key => { return context.getters.regex.isProject.test(key) })
-      .forEach(key => { projects[key] = JSON.parse(localStorage[key]) })
+      .forEach(key => { projects[key] = Object.assign(JSON.parse(localStorage[key]), { id: key }) })
     context.commit('setProjects', { projects })
   },
 
