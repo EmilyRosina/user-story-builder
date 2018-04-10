@@ -1,6 +1,5 @@
 <template>
   <el-dialog
-    v-if="showModal"
     title="add project"
     :visible.sync="showModal"
     width="300px"

@@ -17,9 +17,9 @@
       </el-menu>
     </el-popover>
 
-    <modal-add-project></modal-add-project>
-    <modal-switch-project></modal-switch-project>
-    <modal-rename-project></modal-rename-project>
+    <modal-add-project v-if="modalShowing.addProject"></modal-add-project>
+    <modal-switch-project v-if="modalShowing.switchProject"></modal-switch-project>
+    <modal-rename-project v-if="modalShowing.renameProject"></modal-rename-project>
 
     <!-- <el-dialog
       v-if="['rename','switch','add'].includes(options.mode)"
@@ -95,7 +95,8 @@
       ]),
       ...mapGetters([
         'hasMultipleProjects',
-        'projectNames'
+        'projectNames',
+        'modalShowing'
       ]),
       showOptions () {
         return this.options.mode !== null

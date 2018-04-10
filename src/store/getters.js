@@ -25,6 +25,16 @@ export default {
   },
   template () {
     return template
+  },
+  modalShowing (state) {
+    const isOpen = (modalName) => {
+      return state.active.modal === modalName
+    }
+    return {
+      addProject: isOpen('addProject'),
+      switchProject: isOpen('switchProject'),
+      renameProject: isOpen('renameProject')
+    }
   }
   // selected (state, getters) {
   //   let has = {

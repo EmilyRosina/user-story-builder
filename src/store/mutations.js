@@ -17,7 +17,8 @@ export default {
     Vue.set(state.projects, payload.id, payload)
   },
   renameProject (state, payload) {
-    state.active.project.name = payload
+    state.projects[payload.id].name = payload.name
+    state.active.project.name = payload.name
   },
   setProjectData (state, payload) {
     state.active.project = payload

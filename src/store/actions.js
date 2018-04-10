@@ -27,17 +27,19 @@ export default {
     })
   },
 
-  // payload: { id, name }
+  // payload: { name }
   RENAME_PROJECT (context, payload) {
-    const projectId = context.state.active.project.id
-    const project = {
-      name: payload.name,
-      dataGroups: context.state.active.project.dataGroups,
-      userStories: context.state.active.project.userStories,
-      userJourneys: context.state.active.project.userJourneys
-    }
-    context.commit('localStorage__updateProject', { id: projectId, project })
-    context.commit('renameProject', payload.name)
+    const id = context.state.active.project.id
+    const name = payload.name
+    let project = Object.assign({}, context.state.active.project, { name })
+    delete project.id
+    return new Promise((resolve) => {
+      context.commit('localStorage__updateProject', { id, project })
+      if (JSON.parse(localStorage[id]).name === name) { resolve() }
+    })
+    .then(() => {
+      context.commit('renameProject', { name, id })
+    })
   },
 
   DELETE_PROJECT (context, payload) {
