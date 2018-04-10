@@ -144,6 +144,50 @@
   }
 }
 
+// message-box {
+.el-message-box {
+  width: 300px;
+  border: 2px solid $orange;
+  background: $grey-dark;
+  &__headerbtn {
+    #{$linkStates} {
+      .el-message-box__close {
+        color: $gold;
+      }
+    }
+  }
+  &__title {
+    color: $orange;
+  }
+  &__content {
+    color: $grey-light;
+  }
+  &__btns .el-button {
+    border-color: $grey;
+    background: none;
+    color: $grey;
+
+    &:hover,
+    &:active,
+    &:focus {
+      background: $grey;
+      color: $grey-light;
+    }
+
+    &--primary {
+      border-color: $orange;
+      color: $orange;
+
+      &:hover,
+      &:active,
+      &:focus {
+        background: $orange;
+      }
+    }
+  }
+
+}
+
 // popover
 .el-popover {
   background: $grey-dark;
