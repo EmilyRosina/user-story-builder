@@ -1,39 +1,90 @@
 <template>
   <div class="project-bar">
     <h4 class="project-name">{{ active.project.name }}</h4>
-    <el-button type="info" plain icon="el-icon-more" circle size="mini" class="icon--info" @click="openOptions"></el-button>
-    <el-button type="danger" plain icon="el-icon-delete" circle size="mini" class="icon--delete" @click="deleteAllProjectsBuffer"></el-button>
+    <el-button type="info" plain icon="el-icon-more" circle size="mini" class="icon--info" v-popover:options></el-button>
 
-    <el-dialog
-      title="Project options"
+    <el-popover trigger="hover" ref="options" placement="bottom-end" :visible-arrow="false" popper-class="options">
+      <el-menu>
+        <el-menu-item-group title="Project options">
+          <el-menu-item index="rename_project" @click="openModal('renameProject')">Rename <icon name="pencil-alt" /></el-menu-item>
+          <el-menu-item index="switch_project" @click="openModal('switchProject')" v-if="hasMultipleProjects">Switch <icon name="sign-in-alt" /></el-menu-item>
+          <el-menu-item index="delete_project" class="danger" @click="deleteProject()">Delete <icon name="trash-alt" /></el-menu-item>
+        </el-menu-item-group>
+        <el-menu-item-group title="App options">
+          <el-menu-item index="add_project" @click="openModal('addProject')" class="success">Add new project <icon name="plus" /></el-menu-item>
+          <el-menu-item  index="delete_all_projects" class="danger" @click="deleteAllProjects()">Delete all projects <icon name="trash-alt" /></el-menu-item>
+        </el-menu-item-group>
+      </el-menu>
+    </el-popover>
+
+    <modal-add-project v-if="modalShowing.addProject"></modal-add-project>
+    <modal-switch-project v-if="modalShowing.switchProject"></modal-switch-project>
+    <modal-rename-project v-if="modalShowing.renameProject"></modal-rename-project>
+
+    <!-- <el-dialog
+      v-if="['rename','switch','add'].includes(options.mode)"
+      :title="`${options.mode} project`"
       :visible.sync="options.show"
-      width="300px">
-      <section class="section">
-        <h4 class="section__title">Rename Project</h4>
-        <el-input v-model="options.newName" type="text" :class="{'has-errors': !validated && validationChecks.renamed}"/>
-        <p class="errors">
-          <el-tag v-for="(error, index) in errors" :key="index" :type="error.type">{{ error.text }}</el-tag>
-        </p>
-      </section>
-      <span slot="footer">
-        <!-- <el-button @click="closeOptions" plain type="danger" class="cancel">Cancel</el-button> -->
-        <el-button plain @click="renameProject" type="success" :disabled="!validated" class="U--full-width">Save</el-button>
-      </span>
-    </el-dialog>
+      width="300px"
+      :close-on-click-modal="false"
+      @close="closeOptions()">
+
+      <template v-if="modeIs('rename')">
+        <section class="section">
+          <el-input v-model="options.rename.newName" type="text" :class="{'has-errors': !validated && validationChecks.renamed}"/>
+          <p class="errors">
+            <el-tag v-for="(error, index) in errors" :key="index" :type="error.type">{{ error.text }}</el-tag>
+          </p>
+        </section>
+        <span slot="footer">
+          <el-button plain @click="renameProject" type="success" :disabled="!validated" class="U--full-width">Save</el-button>
+        </span>
+      </template>
+
+      <template v-if="modeIs('switch')">
+        <section class="section">
+
+        </section>
+        <span slot="footer">
+          <el-button plain @click="switchProject" type="success" :disabled="!validated" class="U--full-width">Switch project</el-button>
+        </span>
+      </template>
+
+      <template v-if="modeIs('add')">
+        <section class="section">
+          <el-input v-model="options.add.name" type="text" :class="{'has-errors': !validated && options.add.typing}" @keydown.native.once="options.add.typing = true"/>
+          <p class="errors">
+            <el-tag v-for="(error, index) in errors" :key="index" :type="error.type">{{ error.text }}</el-tag>
+          </p>
+        </section>
+        <span slot="footer">
+          <el-button plain @click="addProject" type="success" :disabled="!validated" class="U--full-width">Add project</el-button>
+        </span>
+      </template>
+
+    </el-dialog> -->
 
   </div>
 </template>
 
 <script>
-  import { mapState } from 'vuex'
+  import { mapState, mapGetters } from 'vuex'
+  import ModalAddProject from '@/components/Modal/AddProject'
+  import ModalSwitchProject from '@/components/Modal/SwitchProject'
+  import ModalRenameProject from '@/components/Modal/RenameProject'
 
   export default {
     name: 'project-bar',
+    components: {
+      ModalAddProject,
+      ModalSwitchProject,
+      ModalRenameProject
+    },
     data () {
       return {
         options: {
-          show: false,
-          newName: ''
+          mode: null,
+          show: false
         }
       }
     },
@@ -42,34 +93,32 @@
         'active',
         'projects'
       ]),
-      validationChecks () {
-        return {
-          hasName: this.options.newName !== '',
-          renamed: this.options.newName !== this.active.project.name,
-          nameIsUnique: !Object.values(this.projects)
-            .includes(this.options.newName)
-        }
-      },
-      errors () {
-        let errors = []
-        let check = this.validationChecks
-        if (!check.hasName) { errors.push({ text: 'Your project name cannot be blank', type: 'warning' }) }
-        if (!check.nameIsUnique) { errors.push({ text: 'Project name already exists', type: 'danger' }) }
-        return errors
-      },
-      validated () {
-        return !Object.values(this.validationChecks).includes(false)
+      ...mapGetters([
+        'hasMultipleProjects',
+        'projectNames',
+        'modalShowing'
+      ]),
+      showOptions () {
+        return this.options.mode !== null
       }
     },
     methods: {
-      openOptions () {
-        this.options.newName = this.active.project.name
-        this.options.show = true
+      openModal (modalName) {
+        this.$store.commit('openModal', modalName)
       },
-      closeOptions () {
-        this.options.show = false
+      deleteProject () {
+        this.$confirm(
+          'Are you sure you want to delete this project?', 'Warning', {
+            confirmButtonText: 'OK',
+            cancelButtonText: 'Cancel',
+            type: 'warning',
+            center: true
+          })
+          .then(() => {
+            this.$store.dispatch('DELETE_PROJECT', { id: this.active.project.id })
+          })
       },
-      deleteAllProjectsBuffer () {
+      deleteAllProjects () {
         this.$confirm(
           'Are you sure you want to delete all of your projects?', 'Warning', {
             confirmButtonText: 'OK',
@@ -77,16 +126,12 @@
             type: 'warning',
             center: true
           })
-          .then(this.deleteAllProjects())
+          .then(() => {
+            this.$store.dispatch('DELETE_ALL_PROJECTS')
+            this.$router.push({ name: 'home' })
+          })
           .catch(() => {
           })
-      },
-      deleteAllProjects () {
-        this.$store.getters.projectIds.forEach(projectId => {
-          localStorage.removeItem(projectId)
-        })
-        this.$store.commit('deleteAllProjects')
-        this.$router.push({ name: 'home' })
       },
       renameProject () {
         const oldName = this.active.project.name
@@ -100,6 +145,15 @@
             type: 'success'
           })
         })
+      },
+      switchProject () {
+
+      },
+      addProject () {
+
+      },
+      modeIs (mode) {
+        return mode === this.options.mode
       }
     }
   }
@@ -129,6 +183,11 @@
       border: 2px solid $clr;
       color: $clr;
     }
+  }
 
+  .options {
+    .fa-icon {
+      padding-left: 1em;
+    }
   }
 </style>

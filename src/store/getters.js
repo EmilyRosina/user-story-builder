@@ -12,6 +12,9 @@ export default {
       isProject: /^proj_/
     }
   },
+  hasMultipleProjects (state, getters) {
+    return Object.keys(state.projects).length > 1
+  },
   projectIds (state) {
     return Object.keys(state.projects)
   },
@@ -20,16 +23,24 @@ export default {
       return state.projects[projectId].name
     })
   },
+  projectMap (state, getters) {
+    let projects = {}
+    getters.projectIds.map(projectId => {
+      projects[projectId] = state.projects[projectId].name
+    })
+    return projects
+  },
   template () {
     return template
+  },
+  modalShowing (state) {
+    const isOpen = (modalName) => {
+      return state.active.modal === modalName
+    }
+    return {
+      addProject: isOpen('addProject'),
+      switchProject: isOpen('switchProject'),
+      renameProject: isOpen('renameProject')
+    }
   }
-  // selected (state, getters) {
-  //   let has = {
-  //     projects: getters.isReturningUser,
-  //     dataGroups: state.active.project.dataGroups.length > 0
-  //   }
-  //   return {
-  //     // dataGroup: has.dataGroups // ? state.active.project.dataGroups[state.active.dataGroupIndex] : null
-  //   }
-  // }
 }

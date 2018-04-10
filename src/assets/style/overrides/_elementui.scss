@@ -4,6 +4,35 @@
   font-family: arial;
 }
 
+// input
+.el-input {
+  &.centered {
+    .el-input__inner {
+      text-align: center;
+    }
+  }
+  &__inner {
+    background: rgba(0,0,0,0.75);
+    border-color: #3c3c3c;
+    border-radius: 0;
+    color: $orange;
+
+    &:hover, &:focus {
+      border-color: $orange;
+    }
+  }
+  &.has-errors {
+    .el-input__inner {
+      border-color: $red;
+      #{linkStates} {
+        border-color: $red;
+      }
+
+    }
+  }
+}
+
+// button
 .el-button--warning.is-plain {
   background: none;
   background-color: none;
@@ -44,34 +73,6 @@
     }
   }
 }
-
-.el-input {
-  &.centered {
-    .el-input__inner {
-      text-align: center;
-    }
-  }
-  &__inner {
-    background: rgba(0,0,0,0.75);
-    border-color: #3c3c3c;
-    border-radius: 0;
-    color: $orange;
-
-    &:hover, &:focus {
-      border-color: $orange;
-    }
-  }
-  &.has-errors {
-    .el-input__inner {
-      border-color: $red;
-      #{linkStates} {
-        border-color: $red;
-      }
-
-    }
-  }
-}
-
 .el-button-group.joint-input {
   .el-button {
     border-color: #3c3c3c;
@@ -81,7 +82,31 @@
     }
   }
 }
+.is-plain {
+  &.el-button {
+    transition: 0.5s;
+    &:not(:hover):not(:active):not(:focus) {
+      background: none;
+    }
+    &--default { border-color: #A6A9AD; }
+    &--primary { border-color: #66B1FF; }
+    &--success { border-color: #85CE61; }
+    &--info    { border-color: #A6A9AD; }
+    &--warning { border-color: #E6A23C; }
+    &--danger  { border-color: #F56C6C; }
+    &.is-disabled {
+      border-color: transparentize($grey-dark, 0.65);
+      color: transparentize($grey-dark, 0.65);
+      #{$linkStates} {
+        border-color: transparent;
+        background: transparentize($grey-dark, 0.75);
+        color: $grey;
+      }
+    }
+  }
+}
 
+// dialog
 .el-dialog {
   background: $grey;
   &__wrapper {
@@ -119,25 +144,101 @@
   }
 }
 
-.is-plain {
-  &.el-button {
-    transition: 0.5s;
-    &:not(:hover):not(:active):not(:focus) {
-      background: none;
+// message-box {
+.el-message-box {
+  width: 300px;
+  border: 2px solid $orange;
+  background: $grey-dark;
+  &__headerbtn {
+    #{$linkStates} {
+      .el-message-box__close {
+        color: $gold;
+      }
     }
-    &--default { border-color: #A6A9AD; }
-    &--primary { border-color: #66B1FF; }
-    &--success { border-color: #85CE61; }
-    &--info    { border-color: #A6A9AD; }
-    &--warning { border-color: #E6A23C; }
-    &--danger  { border-color: #F56C6C; }
-    &.is-disabled {
-      border-color: transparentize($grey-dark, 0.65);
-      color: transparentize($grey-dark, 0.65);
-      #{$linkStates} {
-        border-color: transparent;
-        background: transparentize($grey-dark, 0.75);
-        color: $grey;
+  }
+  &__title {
+    color: $orange;
+  }
+  &__content {
+    color: $grey-light;
+  }
+  &__btns .el-button {
+    border-color: $grey;
+    background: none;
+    color: $grey;
+
+    &:hover,
+    &:active,
+    &:focus {
+      background: $grey;
+      color: $grey-light;
+    }
+
+    &--primary {
+      border-color: $orange;
+      color: $orange;
+
+      &:hover,
+      &:active,
+      &:focus {
+        background: $orange;
+      }
+    }
+  }
+
+}
+
+// popover
+.el-popover {
+  background: $grey-dark;
+  border: none;
+  &:before {
+    border-color: green;
+  }
+}
+
+// menu
+.el-menu {
+  border: none;
+  background: $grey-dark;
+
+  &-item {
+    border: none;
+    margin: 0.25em 0;
+    color: lighten($grey-dark, 30);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 2em;
+    line-height: 2em;
+    border-radius: 2em;
+    @media screen and (max-width: 768px) {
+      height: 3em;
+      line-height: 3em;
+      border-radius: 3em;
+    }
+    &.is-active {
+      @extend .el-menu-item;
+    }
+
+    &:hover,
+    &:active,
+    &:focus {
+      background: lighten($grey-dark, 7);
+      color: $orange;
+
+      &.danger  { color: $red; }
+      &.success { color: $green; }
+    }
+
+    &-group {
+      &__title {
+        padding-left: 10px !important;
+        cursor: default;
+      }
+
+      &:not(:first-of-type) {
+        margin-top: 1.5em;
       }
     }
   }
