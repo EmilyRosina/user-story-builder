@@ -7,7 +7,7 @@
     @close="closeModal()">
 
     <section class="section">
-      <el-input v-model="name" type="text" :class="{'has-errors': !validated && options.add.typing}" @keydown.native.once="typing = true"/>
+      <el-input v-model="name" type="text" :class="{'has-errors': !validated && typing}" @keydown.native.once="typing = true"/>
       <p class="errors">
         <el-tag v-for="(error, index) in errors" :key="index" :type="error.type">{{ error.text }}</el-tag>
       </p>
@@ -21,7 +21,7 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
+  import { mapState, mapGetters } from 'vuex'
 
   export default {
     name: 'modal-add-project',
@@ -37,46 +37,26 @@
         'active',
         'template'
       ]),
+      ...mapGetters([
+        'projectNames'
+      ]),
       showModal () {
         return this.active.modal === 'addProject'
       },
       validationChecks () {
-        // switch (this.options.mode) {
-        //   case 'rename':
-        //     return {
-        //       for: 'rename',
-        //       hasName: this.options.rename.newName !== '',
-        //       renamed: this.options.rename.newName !== this.active.project.name,
-        //       nameIsUnique: !this.projectNames.includes(this.options.rename.newName)
-        //     }
-        //   case 'add':
-        //     return {
-        //       for: 'add',
-        //       hasName: this.options.add.name !== '',
-        //       isTyping: this.options.add.typing,
-        //       nameIsUnique: this.projectNames.includes(this.options.add.name)
-        //     }
-        //   default:
-        //     return {}
-        // }
-        return {}
+        return {
+          hasName: this.name !== '',
+          isTyping: this.typing,
+          nameIsUnique: !this.projectNames.includes(this.name)
+        }
       },
       errors () {
         let errors = []
-        // let check = this.validationChecks
-        // switch (this.options.mode) {
-        //   case 'rename':
-        //     if (check.renamed) {
-        //       if (!check.hasName) { errors.push({ text: 'Your project name cannot be blank', type: 'warning' }) }
-        //       if (!check.nameIsUnique) { errors.push({ text: 'Project name already exists', type: 'danger' }) }
-        //     }
-        //     break
-        //   case 'add':
-        //     if (check.isTyping) {
-        //       if (!check.hasName) { errors.push({ text: 'Your project name cannot be blank', type: 'warning' }) }
-        //       if (!check.nameIsUnique) { errors.push({ text: 'Project name already exists', type: 'danger' }) }
-        //     }
-        // }
+        let check = this.validationChecks
+        if (check.isTyping) {
+          if (!check.hasName) { errors.push({ text: 'Your project name cannot be blank', type: 'warning' }) }
+          if (!check.nameIsUnique) { errors.push({ text: 'Project name already exists', type: 'danger' }) }
+        }
         return errors
       },
       validated () {
