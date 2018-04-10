@@ -144,7 +144,7 @@
   }
 }
 
-// menu
+// popover
 .el-popover {
   background: $grey-dark;
   border: none;
@@ -173,11 +173,13 @@
       line-height: 3em;
       border-radius: 3em;
     }
+    &.is-active {
+      @extend .el-menu-item;
+    }
 
     &:hover,
     &:active,
-    &:focus,
-    &.is-active {
+    &:focus {
       background: lighten($grey-dark, 7);
       color: $orange;
 
