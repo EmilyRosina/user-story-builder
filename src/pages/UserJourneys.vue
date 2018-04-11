@@ -1,7 +1,7 @@
 <template>
   <main-layout>
 
-    <p>User Journey</p>
+    <el-tag type="warning">Coming soon...</el-tag>
 
   </main-layout>
 </template>

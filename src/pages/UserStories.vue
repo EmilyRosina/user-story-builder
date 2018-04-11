@@ -1,9 +1,9 @@
 <template>
   <main-layout>
 
-    <p>User stories</p>
+    <el-tag type="warning">Coming soon...</el-tag>
 
-    <el-row>
+    <el-row v-if="false">
       <user-story></user-story>
     </el-row>
 

@@ -1,8 +1,13 @@
 <template>
   <el-container class="main-layout">
 
+    <span v-if="devMode" :class="`breakpoint--${breakpoint}`">{{ breakpoint }}</span>
+
     <el-header>
-      <router-link tag="p" to="/" class="title">User Story Builder</router-link>
+      <router-link tag="p" to="/" :class="['title', {'centered-title': isNewUser}]">
+        <icon v-if="breakpointIs('xs') && isReturningUser" name="home" scale="1.5"/>
+        <span v-else>{{ title }}</span>
+      </router-link>
 
       <project-bar v-if="isReturningUser"></project-bar>
 
@@ -76,20 +81,47 @@
     computed: {
       ...mapGetters([
         'isNewUser',
-        'isReturningUser'
+        'isReturningUser',
+        'breakpointIs',
+        'devMode'
       ]),
       ...mapState([
-        'active'
+        'active',
+        'breakpoint'
       ]),
       thisYear () {
         /* eslint-disable no-new */
         return new Date().getFullYear()
+      },
+      title () {
+        return 'User Story Builder'
       }
     }
   }
 </script>
 
 <style lang="scss" scoped>
+  .breakpoint {
+    position: absolute;
+    color: black;
+    padding: 0.15em;
+    top: 0;
+    left: 0;
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 800;
+    &--xs { @extend .breakpoint; background: skyblue }
+    &--sm { @extend .breakpoint; background: lightgreen }
+    &--md { @extend .breakpoint; background: lightsalmon }
+    &--lg { @extend .breakpoint; background: lightcoral }
+    &--xl { @extend .breakpoint; background: violet }
+  }
+
+  .centered-title {
+    text-align: center;
+    width: 100%;
+  }
+
   .el-header {
     @extend %flex--center--cross;
     @extend %flex--no-wrap;

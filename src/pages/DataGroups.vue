@@ -1,7 +1,9 @@
 <template>
   <main-layout>
 
-    <el-row>
+    <el-tag type="warning">Coming soon...</el-tag>
+
+    <el-row v-if="false">
 
       <data-group mode="add"  v-if="addingDataGroup"></data-group>
       <data-group mode="edit" v-if="editingDataGroup"></data-group>
