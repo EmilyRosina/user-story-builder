@@ -14,10 +14,10 @@ export default {
     },
     lg: {
       min: 1200,
-      max: 1919
+      max: 1920
     },
     xl: {
-      min: 1920,
+      min: 1921,
       max: Infinity
     }
 
