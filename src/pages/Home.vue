@@ -70,20 +70,8 @@
     },
     methods: {
       addProject () {
-        // const id = `proj_${Date.now()}`
-        // let project = Object.assign({}, this.template.project, { name: this.newProjectName })
         this.$store.dispatch('ADD_PROJECT', {
-          // id,
-          // project
           name: this.newProjectName
-        })
-        this.$notify({
-          title: 'Project',
-          message: 'added',
-          type: 'success',
-          showClose: false,
-          duration: 1500,
-          position: 'bottom-right'
         })
         this.reset()
       },
