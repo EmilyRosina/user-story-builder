@@ -133,25 +133,6 @@
           .catch(() => {
           })
       },
-      renameProject () {
-        const oldName = this.active.project.name
-        this.$store.dispatch('RENAME_PROJECT', {
-          name: this.options.newName
-        })
-        .then(() => {
-          this.closeOptions()
-          this.$message({
-            message: `Renamed ${oldName} to ${this.options.newName}`,
-            type: 'success'
-          })
-        })
-      },
-      switchProject () {
-
-      },
-      addProject () {
-
-      },
       modeIs (mode) {
         return mode === this.options.mode
       }

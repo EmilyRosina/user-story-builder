@@ -22,9 +22,11 @@
 
 <script>
   import { mapState, mapGetters } from 'vuex'
+  import { closeModal } from 'utils/mixins'
 
   export default {
     name: 'modal-add-project',
+    mixins: [closeModal],
     data () {
       return {
         mode: 'add',
@@ -67,11 +69,7 @@
       addProject () {
         if (this.validated) {
           this.$store.dispatch('ADD_PROJECT', { name: this.name })
-            .then(() => { this.closeModal() })
         }
-      },
-      closeModal () {
-        this.$store.commit('closeModal')
       }
     }
   }

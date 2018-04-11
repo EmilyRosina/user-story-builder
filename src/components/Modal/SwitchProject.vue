@@ -24,9 +24,11 @@
 
 <script>
   import { mapState, mapGetters } from 'vuex'
+  import { closeModal } from 'utils/mixins'
 
   export default {
     name: 'modal-switch-project',
+    mixins: [closeModal],
     created () {
       this.selectedProjectId = this.active.project.id
     },
@@ -56,9 +58,6 @@
         let project = this.projects[this.selectedProjectId]
         this.$store.commit('setProjectData', project)
         this.closeModal()
-      },
-      closeModal () {
-        this.$store.commit('closeModal')
       }
     }
   }

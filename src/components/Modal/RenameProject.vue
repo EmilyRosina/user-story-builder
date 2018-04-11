@@ -21,9 +21,11 @@
 
 <script>
   import { mapState, mapGetters } from 'vuex'
+  import { closeModal } from 'utils/mixins'
 
   export default {
     name: 'modal-rename-project',
+    mixins: [closeModal],
     created () {
       this.name = {
         original: this.active.project.name,
@@ -70,13 +72,9 @@
       }
     },
     methods: {
-      closeModal () {
-        this.$store.commit('closeModal')
-      },
       renameProject () {
         if (this.validated) {
           this.$store.dispatch('RENAME_PROJECT', { name: this.name.new })
-            .then(() => { this.closeModal() })
         }
       }
     }

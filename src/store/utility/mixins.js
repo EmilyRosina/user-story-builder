@@ -7,6 +7,15 @@ const redirectIfNewUser = {
   }
 }
 
+const closeModal = {
+  methods: {
+    closeModal () {
+      this.$store.commit('closeModal')
+    }
+  }
+}
+
 export {
-  redirectIfNewUser
+  redirectIfNewUser,
+  closeModal
 }
