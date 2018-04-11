@@ -37,7 +37,10 @@
     </el-main>
 
 
-    <el-footer>EmilyRosina &copy; {{ thisYear }}</el-footer>
+    <el-footer>
+      <span>EmilyRosina &copy; {{ thisYear }}</span>
+      <a href="https://github.com/EmilyRosina/user-story-builder" target="_blank" class="github"><icon name="brands/github" scale="2.5"/></a>
+    </el-footer>
 
   </el-container>
 </template>
@@ -174,5 +177,12 @@
     @extend %flex--center;
     background: #222;
     color: lightseagreen;
+  }
+
+  .github {
+    position: absolute;
+    right: 10px;
+    bottom: 0.5em;
+    color: transparentize(black, 0.5);
   }
 </style>
