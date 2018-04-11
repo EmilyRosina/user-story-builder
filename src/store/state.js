@@ -11,7 +11,8 @@ export default {
       userJourney: []
     }
   },
-  projects: {}
+  projects: {},
+  breakpoint: ''
   // ui: {
   //   dataGroup: {
   //     adding: false,

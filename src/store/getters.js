@@ -1,6 +1,12 @@
-import template from '@/store/utility/templates'
+import templates from '@/store/utility/templates'
 
 export default {
+  devMode () {
+    return process.env.NODE_ENV === 'development'
+  },
+  breakpointIs: (state) => (breakpoint) => {
+    return state.breakpoint === breakpoint
+  },
   isNewUser (state) {
     return Object.keys(state.projects).length === 0
   },
@@ -31,7 +37,7 @@ export default {
     return projects
   },
   template () {
-    return template
+    return templates
   },
   modalShowing (state) {
     const isOpen = (modalName) => {

@@ -20,8 +20,8 @@ export default {
     state.projects[payload.id].name = payload.name
     state.active.project.name = payload.name
   },
-  setProjectData (state, payload) {
-    state.active.project = payload
+  setProjectData (state, project) {
+    state.active.project = project
   },
   setProjects (state, payload) {
     state.projects = payload.projects
@@ -32,10 +32,13 @@ export default {
   deleteAllProjects (state) {
     state.projects = {}
   },
-  openModal (state, payload) {
-    state.active.modal = payload
+  openModal (state, modalName) {
+    state.active.modal = modalName
   },
   closeModal (state) {
     state.active.modal = null
+  },
+  setBreakpoint (state, breakpoint) {
+    state.breakpoint = breakpoint
   }
 }

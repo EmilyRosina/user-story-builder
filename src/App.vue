@@ -5,9 +5,18 @@
 </template>
 
 <script>
+  import utils from '@/store/utility/utils'
+
   export default {
     name: 'app',
     created () {
+      this.$store.commit('setBreakpoint', utils.breakpoint(window.innerWidth))
+      window.addEventListener('resize', () => {
+        const breakpoint = utils.breakpoint(window.innerWidth)
+        if (this.$store.state.breakpoint !== breakpoint) {
+          this.$store.commit('setBreakpoint', breakpoint)
+        }
+      })
       this.$store.dispatch('GET_PROJECTS')
       if (this.$store.getters.projectIds.length > 0) {
         const projectId = this.$store.getters.projectIds[0]
