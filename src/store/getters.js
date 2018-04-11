@@ -1,4 +1,4 @@
-import templates from '@/store/utility/templates'
+import templates from 'utils/templates'
 
 export default {
   devMode () {

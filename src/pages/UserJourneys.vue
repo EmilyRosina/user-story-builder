@@ -7,7 +7,7 @@
 </template>
 
 <script>
-  import { redirectIfNewUser } from '@/store/utility/mixins'
+  import { redirectIfNewUser } from 'utils/mixins'
 
   export default {
     name: 'user-journeys',

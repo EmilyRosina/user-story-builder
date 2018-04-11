@@ -6,11 +6,11 @@ import App from './App'
 import store from './store'
 import router from './router'
 
-import plugins from './store/utility/plugins'
-import filters from './store/utility/filters'
+import plugins from 'utils/plugins'
+import filters from 'utils/filters'
 
 import GlobalStyles from '@/assets/style/main.scss'
-import GlobalComponents from './store/utility/globalComponents'
+import GlobalComponents from 'utils/globalComponents'
 
 Vue.config.devtools = true
 Vue.config.productionTip = false

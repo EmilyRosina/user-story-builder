@@ -21,7 +21,7 @@
   import BtnAddDataGroup from '@/components/DataGroup/Add'
   import DataGroupList from '@/components/DataGroup/List'
   import { mapState } from 'vuex'
-  import { redirectIfNewUser } from '@/store/utility/mixins'
+  import { redirectIfNewUser } from 'utils/mixins'
 
   export default {
     name: 'data-groups',
