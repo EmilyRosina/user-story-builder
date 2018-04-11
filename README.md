@@ -1,27 +1,23 @@
-# user-story-builder
+# User Story Builder
 
-> A tool to help create user stories
+> A tool to help create user stories, data groups and user journeys
 
-## Build Setup
+## Getting started (source code)
 
-``` bash
+```bash
 # install dependencies
 npm install
-
+```
+```bash
 # serve with hot reload at localhost:8080
+# also available on your network via [your ip]:8080
 npm run dev
-
+```
+```bash
 # build for production with minification
+# will also push to githubpages if you have vcg installed globally
 npm run build
 
-# build for production and view the bundle analyzer report
-npm run build --report
-
-# run unit tests
-npm run unit
-
-# run all tests
-npm test
+# install vcg globally to publish to githubpages
+npm install -g vue-cli-ghpages
 ```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
