@@ -21,49 +21,6 @@
     <modal-switch-project v-if="modalShowing.switchProject"></modal-switch-project>
     <modal-rename-project v-if="modalShowing.renameProject"></modal-rename-project>
 
-    <!-- <el-dialog
-      v-if="['rename','switch','add'].includes(options.mode)"
-      :title="`${options.mode} project`"
-      :visible.sync="options.show"
-      width="300px"
-      :close-on-click-modal="false"
-      @close="closeOptions()">
-
-      <template v-if="modeIs('rename')">
-        <section class="section">
-          <el-input v-model="options.rename.newName" type="text" :class="{'has-errors': !validated && validationChecks.renamed}"/>
-          <p class="errors">
-            <el-tag v-for="(error, index) in errors" :key="index" :type="error.type">{{ error.text }}</el-tag>
-          </p>
-        </section>
-        <span slot="footer">
-          <el-button plain @click="renameProject" type="success" :disabled="!validated" class="U--full-width">Save</el-button>
-        </span>
-      </template>
-
-      <template v-if="modeIs('switch')">
-        <section class="section">
-
-        </section>
-        <span slot="footer">
-          <el-button plain @click="switchProject" type="success" :disabled="!validated" class="U--full-width">Switch project</el-button>
-        </span>
-      </template>
-
-      <template v-if="modeIs('add')">
-        <section class="section">
-          <el-input v-model="options.add.name" type="text" :class="{'has-errors': !validated && options.add.typing}" @keydown.native.once="options.add.typing = true"/>
-          <p class="errors">
-            <el-tag v-for="(error, index) in errors" :key="index" :type="error.type">{{ error.text }}</el-tag>
-          </p>
-        </section>
-        <span slot="footer">
-          <el-button plain @click="addProject" type="success" :disabled="!validated" class="U--full-width">Add project</el-button>
-        </span>
-      </template>
-
-    </el-dialog> -->
-
   </div>
 </template>
 
