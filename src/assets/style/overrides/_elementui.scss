@@ -129,6 +129,10 @@
     .section {
       background: transparentize($grey-dark, 0.75);
       padding: 1em;
+      &:not(:first-child) {
+        margin-top: 1.5em;
+      }
+
       &__title {
         color: $orange;
         margin: 0;
