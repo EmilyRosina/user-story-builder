@@ -148,5 +148,18 @@ export default {
           })
         }
       })
+  },
+
+  /**
+   *
+   * @param {Object} payload { project }
+   */
+  ADD_DATA_GROUP (context, payload) {
+    console.log('ADD_DATA_GROUP', payload)
+    // update local storage
+    // context.commit('localStorage__addDataGroup', payload.project)
+
+    // add to state object
+    // context.commit('addDataGroup', payload.project)
   }
 }
