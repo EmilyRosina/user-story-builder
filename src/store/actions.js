@@ -157,9 +157,9 @@ export default {
   ADD_DATA_GROUP (context, payload) {
     console.log('ADD_DATA_GROUP', payload)
     // update local storage
-    // context.commit('localStorage__addDataGroup', payload.project)
+    context.commit('localStorage__updateProject', { project: payload })
 
     // add to state object
-    // context.commit('addDataGroup', payload.project)
+    context.commit('updateProjectData', payload)
   }
 }

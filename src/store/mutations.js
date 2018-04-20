@@ -5,7 +5,7 @@ export default {
     localStorage[payload.id] = JSON.stringify(payload.project)
   },
   localStorage__updateProject (state, payload) {
-    localStorage[payload.id] = JSON.stringify(payload.project)
+    localStorage[payload.project.id] = JSON.stringify(payload.project)
   },
   localStorage__deleteProject (state, payload) {
     localStorage.removeItem(payload.id)
@@ -22,6 +22,9 @@ export default {
   },
   setProjectData (state, project) {
     state.active.project = project
+  },
+  updateProjectData (state, project) {
+    state.projects[project.id] = project
   },
   setProjects (state, payload) {
     state.projects = payload.projects
