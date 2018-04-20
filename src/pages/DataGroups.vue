@@ -13,7 +13,6 @@
 </template>
 
 <script>
-  import DataGroup from '@/components/DataGroup'
   import BtnAddDataGroup from '@/components/DataGroup/Add'
   import DataGroupList from '@/components/DataGroup/List'
   import ModalAddDataGroup from '@/components/Modal/DataGroup/Add'
@@ -25,7 +24,6 @@
     mixins: [redirectIfNewUser],
     components: {
       BtnAddDataGroup,
-      DataGroup,
       DataGroupList,
       ModalAddDataGroup
     },
