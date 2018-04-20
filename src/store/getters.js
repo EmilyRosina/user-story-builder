@@ -37,7 +37,9 @@ export default {
     return {
       addProject: isOpen('addProject'),
       switchProject: isOpen('switchProject'),
-      renameProject: isOpen('renameProject')
+      renameProject: isOpen('renameProject'),
+      addDataGroup: isOpen('addDataGroup'),
+      editDataGroup: isOpen('editDataGroup')
     }
   },
 

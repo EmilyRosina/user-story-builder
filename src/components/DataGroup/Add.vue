@@ -1,15 +1,17 @@
 <template>
   <el-col>
-    <el-button type="warning" plain @click.native="addNewDataGroup" class="U--full-width">Add Data Group</el-button>
+    <el-button type="warning" plain @click.native="openModal('addDataGroup')" class="U--full-width">Add Data Group</el-button>
   </el-col>
 </template>
 
 <script>
+  import { mapMutations } from 'vuex'
+
   export default {
     methods: {
-      addNewDataGroup () {
-        this.$store.state.ui.dataGroup.adding = true
-      }
+      ...mapMutations([
+        'openModal'
+      ])
     }
   }
 </script>
