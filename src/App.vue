@@ -5,7 +5,7 @@
 </template>
 
 <script>
-  import utils from 'utils/utils'
+  import utils from 'utils/index'
 
   export default {
     name: 'app',
