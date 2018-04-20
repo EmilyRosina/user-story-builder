@@ -26,9 +26,9 @@
 
 <script>
   import { mapState, mapGetters } from 'vuex'
-  import ModalAddProject from '@/components/Modal/AddProject'
-  import ModalSwitchProject from '@/components/Modal/SwitchProject'
-  import ModalRenameProject from '@/components/Modal/RenameProject'
+  import ModalAddProject from '@/components/Modal/Project/Add'
+  import ModalSwitchProject from '@/components/Modal/Project/Switch'
+  import ModalRenameProject from '@/components/Modal/Project/Rename'
 
   export default {
     name: 'project-bar',
