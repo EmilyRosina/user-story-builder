@@ -18,6 +18,9 @@ export default {
   hasMultipleProjects (state, getters) {
     return Object.keys(state.projects).length > 1
   },
+  project (state) {
+    return state.projects[state.active.project.id]
+  },
   projectIds (state) {
     return Object.keys(state.projects)
   },
@@ -46,7 +49,7 @@ export default {
   /**
    * @param {String} breakpoint String
    */
-  breakpointIs: (state) => (breakpoint) => {
-    return state.breakpoint === breakpoint
+  breakpointIs: (state) => (...breakpoints) => {
+    return breakpoints.includes(state.breakpoint)
   }
 }
