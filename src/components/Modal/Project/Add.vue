@@ -1,20 +1,20 @@
 <template>
   <el-dialog
     title="add project"
-    :visible.sync="showModal"
+    :visible="showModal"
     width="300px"
     :close-on-click-modal="false"
     @close="closeModal()">
 
     <section class="section">
-      <el-input v-model="name" type="text" :class="{'has-errors': !validated && typing}" @keydown.native.once="typing = true"/>
+      <el-input v-model.trim="name" type="text" :class="{'has-errors': !validated && typing}" @keydown.native.once="typing = true"/>
       <p class="errors">
         <el-tag v-for="(error, index) in errors" :key="index" :type="error.type">{{ error.text }}</el-tag>
       </p>
     </section>
 
     <span slot="footer">
-      <el-button plain @click="addProject" type="success" :disabled="!validated" class="U--full-width">Add project</el-button>
+      <el-button plain @click="addProject" type="success" :disabled="!validated" class="U--full-width">Add data group</el-button>
     </span>
 
   </el-dialog>
@@ -42,6 +42,7 @@
       ...mapGetters([
         'projectNames'
       ]),
+
       showModal () {
         return this.active.modal === 'addProject'
       },

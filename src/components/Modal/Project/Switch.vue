@@ -1,7 +1,7 @@
 <template>
   <el-dialog
     title="switch project"
-    :visible.sync="showModal"
+    :visible="showModal"
     width="300px"
     :close-on-click-modal="false"
     @close="closeModal()">

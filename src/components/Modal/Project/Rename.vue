@@ -1,13 +1,13 @@
 <template>
   <el-dialog
     title="rename project"
-    :visible.sync="showModal"
+    :visible="showModal"
     width="300px"
     :close-on-click-modal="false"
     @close="closeModal()">
 
     <section class="section">
-      <el-input v-model="name.new" type="text" :class="{'has-errors': !validated && validationChecks.renamed}"/>
+      <el-input v-model.trim="name.new" type="text" :class="{'has-errors': !validated && validationChecks.renamed}"/>
       <p class="errors">
         <el-tag v-for="(error, index) in errors" :key="index" :type="error.type">{{ error.text }}</el-tag>
       </p>
@@ -48,6 +48,7 @@
       ...mapGetters([
         'projectNames'
       ]),
+
       showModal () {
         return this.active.modal === 'renameProject'
       },

@@ -84,9 +84,7 @@
         return {
           hasName: this.name !== '',
           nameIsUnique: !this.$store.state.active.project.dataGroups
-            .map(dataGroup => {
-              return dataGroup.name
-            })
+            .map(dataGroup => dataGroup.name)
             .includes(this.name),
           typing: this.firstChance === false
         }

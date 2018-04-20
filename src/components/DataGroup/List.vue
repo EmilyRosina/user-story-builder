@@ -9,13 +9,17 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
+  import { mapGetters } from 'vuex'
 
   export default {
     computed: {
-      ...mapState({
-        dataGroups: state => state.active.project.dataGroups
-      })
+      ...mapGetters([
+        'project'
+      ]),
+
+      dataGroups () {
+        return this.project.dataGroups
+      }
     }
   }
 </script>
