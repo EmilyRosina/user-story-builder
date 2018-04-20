@@ -4,9 +4,9 @@
     <span v-if="devMode" :class="`breakpoint--${breakpoint}`">{{ breakpoint }}</span>
 
     <el-header>
-      <router-link tag="p" to="/" :class="['title', {'centered-title': isNewUser}]">
+      <router-link tag="p" to="/" :class="['title', {'centered-title': isNewUser}]" @click.native="clearActiveTab()">
         <icon v-if="breakpointIs('xs') && isReturningUser" name="home" scale="1.5"/>
-        <span v-else>{{ title }}</span>
+        <span v-else>User Story Builder</span>
       </router-link>
 
       <project-bar v-if="isReturningUser"></project-bar>
@@ -18,10 +18,10 @@
       <template v-if="isReturningUser">
         <div class="button-bar">
           <button
-            :class="['button-bar__button', {active: tabIsActive(tab.name)}]"
+            :class="['button-bar__button', { active: tabIsActive(tab.name) }]"
             v-for="tab in tabs"
             :key="tab.name"
-            @click="handleTabClick(tab.name)"
+            @click="changeTab(tab.name)"
             >
             {{ tab.label }}
           </button>
@@ -47,7 +47,7 @@
 
 <script>
   import ProjectBar from '@/components/ProjectBar'
-  import { mapGetters, mapState } from 'vuex'
+  import { mapGetters, mapState, mapMutations } from 'vuex'
 
   export default {
     name: 'main-layout',
@@ -73,8 +73,15 @@
       }
     },
     methods: {
-      handleTabClick (selectedTab) {
-        this.$store.commit('setActiveTab', { tabName: selectedTab })
+      ...mapMutations([
+        'setActiveTab'
+      ]),
+
+      clearActiveTab () {
+        this.setActiveTab({ tabName: '' })
+      },
+      changeTab (selectedTab) {
+        this.setActiveTab({ tabName: selectedTab })
         this.$router.push({ name: selectedTab })
       },
       tabIsActive (tabName) {
@@ -92,12 +99,10 @@
         'active',
         'breakpoint'
       ]),
+
       thisYear () {
-        /* eslint-disable no-new */
+        // eslint-disable-next-line
         return new Date().getFullYear()
-      },
-      title () {
-        return 'User Story Builder'
       }
     }
   }
