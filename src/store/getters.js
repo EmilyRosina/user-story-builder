@@ -4,9 +4,6 @@ export default {
   devMode () {
     return process.env.NODE_ENV === 'development'
   },
-  breakpointIs: (state) => (breakpoint) => {
-    return state.breakpoint === breakpoint
-  },
   isNewUser (state) {
     return Object.keys(state.projects).length === 0
   },
@@ -25,28 +22,29 @@ export default {
     return Object.keys(state.projects)
   },
   projectNames (state, getters) {
-    return getters.projectIds.map(projectId => {
-      return state.projects[projectId].name
-    })
+    return getters.projectIds.map(projectId => state.projects[projectId].name)
   },
   projectMap (state, getters) {
     let projects = {}
-    getters.projectIds.map(projectId => {
-      projects[projectId] = state.projects[projectId].name
-    })
+    getters.projectIds.map(projectId => { projects[projectId] = state.projects[projectId].name })
     return projects
   },
   template () {
     return templates
   },
   modalShowing (state) {
-    const isOpen = (modalName) => {
-      return state.active.modal === modalName
-    }
+    const isOpen = (modalName) => state.active.modal === modalName
     return {
       addProject: isOpen('addProject'),
       switchProject: isOpen('switchProject'),
       renameProject: isOpen('renameProject')
     }
+  },
+
+  /**
+   * @param {String} breakpoint String
+   */
+  breakpointIs: (state) => (breakpoint) => {
+    return state.breakpoint === breakpoint
   }
 }
