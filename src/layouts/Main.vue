@@ -81,10 +81,10 @@
         this.$message({ message: 'main clicked' })
       },
       clearActiveTab () {
-        this.setActiveTab({ tabName: '' })
+        this.setActiveTab('home')
       },
       changeTab (selectedTab) {
-        this.setActiveTab({ tabName: selectedTab })
+        this.setActiveTab(selectedTab)
         this.$router.push({ name: selectedTab })
       },
       tabIsActive (tabName) {

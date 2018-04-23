@@ -13,8 +13,8 @@ export default {
   setActiveProjectId (state, projectId) {
     state.active.projectId = projectId
   },
-  setActiveTab (state, payload) {
-    state.active.tab = payload.tabName
+  setActiveTab (state, tabName) {
+    state.active.tab = tabName
   },
   addProject (state, project) {
     Vue.set(state.projects, project.id, project)

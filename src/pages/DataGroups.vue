@@ -30,6 +30,9 @@
       DataGroupList,
       ModalAddDataGroup
     },
+    mounted () {
+      this.$store.commit('setActiveTab', 'dataGroups')
+    },
     computed: {
       ...mapGetters([
         'modalShowing',

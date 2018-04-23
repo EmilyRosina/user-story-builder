@@ -19,6 +19,9 @@
     mixins: [redirectIfNewUser],
     components: {
       UserStory
+    },
+    mounted () {
+      this.$store.commit('setActiveTab', 'userStories')
     }
   }
 </script>

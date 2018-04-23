@@ -37,6 +37,9 @@
         typing: false
       }
     },
+    mounted () {
+      this.$store.commit('setActiveTab', 'home')
+    },
     computed: {
       ...mapGetters([
         'projectNames',

@@ -11,6 +11,9 @@
 
   export default {
     name: 'user-journeys',
-    mixins: [redirectIfNewUser]
+    mixins: [redirectIfNewUser],
+    mounted () {
+      this.$store.commit('setActiveTab', 'userJourneys')
+    }
   }
 </script>
