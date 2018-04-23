@@ -9,16 +9,26 @@ export default {
     Object.keys(localStorage)
       .filter(key => context.getters.regex.isProject.test(key))
       .forEach(key => { projects[key] = Object.assign(JSON.parse(localStorage[key]), { id: key }) })
-    context.commit('setProjects', { projects })
+    context.commit('setProjects', projects)
   },
 
   /**
    *
-   * @param {Object} payload { id: String }
+   * @param {Object} payload
    */
   GET_PROJECT_DATA (context, payload) {
     let project = JSON.parse(localStorage[payload.id])
-    context.commit('setProjectData', Object.assign({}, { id: payload.id }, project))
+    context.commit('updateProjectData', Object.assign({}, project))
+  },
+
+  /**
+   *
+   * @param {Object} project
+   */
+  SET_PROJECT_DATA (context, project) {
+    context.commit('localStorage__updateProject', project)
+    context.commit('updateProjectData', project)
+    if (project.id !== context.getters.project.id) context.commit('setActiveProjectId', project.id)
   },
 
   /**
@@ -28,18 +38,18 @@ export default {
   ADD_PROJECT (context, payload) {
     const id = `proj_${Date.now()}`
     const name = payload.name
-    let project = Object.assign({}, context.getters.template.project, { name })
+    let project = Object.assign({}, context.getters.template.project, { name, id })
     return new Promise((resolve) => {
-      context.commit('localStorage__addProject', { id, project })
+      context.commit('localStorage__addProject', project)
       if (localStorage[id]) { resolve() }
     })
       .then(() => {
-        context.commit('addProject', Object.assign({}, project, { id }))
-        return context.getters.projectIds.includes(id)
+        context.commit('addProject', Object.assign({}, project))
+        context.commit('setActiveProjectId', id)
+        return context.state.active.projectId === id
       })
       .then((stillOk) => {
         if (stillOk) {
-          context.commit('setProjectData', Object.assign({}, project, { id }))
           Notification.success({
             title: `New project added`,
             dangerouslyUseHTMLString: true,
@@ -58,28 +68,29 @@ export default {
    *
    * @param {Object} payload { name: String }
    */
-  RENAME_PROJECT (context, payload) {
-    const id = context.state.active.project.id
-    const origName = context.state.active.project.name
-    const name = payload.name
-    let project = Object.assign({}, context.state.active.project, { name })
-    delete project.id
+  RENAME_PROJECT (context, project) {
+    const origName = context.getters.project.name
     return new Promise((resolve) => {
-      context.commit('localStorage__updateProject', { id, project })
-      if (JSON.parse(localStorage[id]).name === name) { resolve() }
+      context.commit('localStorage__updateProject', project)
+      if (JSON.parse(localStorage[project.id]).name === project.name) resolve()
     })
       .then(() => {
-        context.commit('renameProject', { name, id })
-        Notification.success({
-          title: `Rename successful`,
-          message: `Successfully renamed <b>${origName}</b> to <b>${name}</b>`,
-          dangerouslyUseHTMLString: true,
-          type: 'success',
-          showClose: false,
-          duration: 3000,
-          position: 'bottom-right'
-        })
-        context.commit('closeModal')
+        context.commit('renameProject', project)
+        return project.name === context.getters.project.name
+      })
+      .then((stillOk) => {
+        if (stillOk) {
+          context.commit('closeModal')
+          Notification.success({
+            title: `Rename successful`,
+            message: `Successfully renamed <b>${origName}</b> to <b>${project.name}</b>`,
+            dangerouslyUseHTMLString: true,
+            type: 'success',
+            showClose: false,
+            duration: 3000,
+            position: 'bottom-right'
+          })
+        }
       })
   },
 
@@ -87,25 +98,24 @@ export default {
    *
    * @param {Object} payload { id: String }
    */
-  DELETE_PROJECT (context, payload) {
-    const id = payload.id
-    const name = context.getters.projectMap[id]
+  DELETE_PROJECT (context, projectId) {
+    const name = context.getters.projectMap[projectId]
     return new Promise((resolve) => {
-      context.commit('localStorage__deleteProject', { id })
-      if (!localStorage[id]) { resolve() }
+      context.commit('localStorage__deleteProject', projectId)
+      if (!localStorage[projectId]) { resolve() }
     })
       .then(() => {
-        context.commit('deleteProject', { id })
-        return !context.getters.projectIds.includes(id)
+        context.commit('deleteProject', projectId)
+        return !context.getters.projectIds.includes(projectId)
       })
       .then((stillOk) => {
         if (stillOk && context.getters.isReturningUser) {
           const firstProjectId = context.getters.projectIds[0]
-          const firstProject = Object.assign({}, context.state.projects[firstProjectId], { id: firstProjectId })
-          context.commit('setProjectData', firstProject)
-          return context.state.active.project.id === firstProjectId
+          context.commit('setActiveProjectId', firstProjectId)
+          return context.getters.projectId === firstProjectId
         }
         if (stillOk && context.getters.isNewUser) {
+          context.commit('setActiveProjectId', null)
           return true
         }
       })
@@ -125,7 +135,7 @@ export default {
   DELETE_ALL_PROJECTS (context) {
     return new Promise((resolve) => {
       context.getters.projectIds.forEach(projectId => {
-        context.commit('localStorage__deleteProject', { id: projectId })
+        context.commit('localStorage__deleteProject', projectId)
       })
       const noLsProjects = Object.keys(localStorage)
         .filter(key => { return context.getters.regex.isProject.test(key) })
@@ -138,6 +148,7 @@ export default {
       })
       .then((stillOk) => {
         if (stillOk) {
+          context.commit('setActiveProjectId', null)
           Notification.success({
             title: `Deletion successful`,
             message: `All projects successfully deleted`,
@@ -148,18 +159,5 @@ export default {
           })
         }
       })
-  },
-
-  /**
-   *
-   * @param {Object} payload { project }
-   */
-  ADD_DATA_GROUP (context, payload) {
-    console.log('ADD_DATA_GROUP', payload)
-    // update local storage
-    context.commit('localStorage__updateProject', { project: payload })
-
-    // add to state object
-    context.commit('updateProjectData', payload)
   }
 }

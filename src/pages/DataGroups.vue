@@ -6,6 +6,9 @@
 
     <el-row>
       <btn-add-data-group></btn-add-data-group>
+    </el-row>
+
+    <el-row>
       <data-group-list v-if="haveDataGroups"></data-group-list>
     </el-row>
 

@@ -6,6 +6,7 @@
 
 <script>
   import utils from 'utils/index'
+  import { mapGetters } from 'vuex'
 
   export default {
     name: 'app',
@@ -13,15 +14,26 @@
       this.$store.commit('setBreakpoint', utils.breakpoint(window.innerWidth))
       window.addEventListener('resize', () => {
         const breakpoint = utils.breakpoint(window.innerWidth)
-        if (this.$store.state.breakpoint !== breakpoint) {
-          this.$store.commit('setBreakpoint', breakpoint)
-        }
+        if (!this.breakpointIs(breakpoint)) this.$store.commit('setBreakpoint', breakpoint)
       })
       this.$store.dispatch('GET_PROJECTS')
-      if (this.$store.getters.projectIds.length > 0) {
-        const projectId = this.$store.getters.projectIds[0]
-        this.$store.dispatch('GET_PROJECT_DATA', { id: projectId })
+      if (this.isReturningUser) {
+        if (this.hasMultipleProjects) {
+          const projectId = this.projectIds[0]
+          this.$store.commit('setActiveProjectId', projectId)
+          this.$store.dispatch('GET_PROJECT_DATA', { id: projectId })
+        } else {
+          this.$store.commit('setActiveProjectId', this.projectIds[0])
+        }
       }
+    },
+    computed: {
+      ...mapGetters([
+        'isReturningUser',
+        'breakpointIs',
+        'projectIds',
+        'hasMultipleProjects'
+      ])
     }
   }
 </script>

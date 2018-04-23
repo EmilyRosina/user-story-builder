@@ -77,6 +77,9 @@
         'setActiveTab'
       ]),
 
+      logit () {
+        this.$message({ message: 'main clicked' })
+      },
       clearActiveTab () {
         this.setActiveTab({ tabName: '' })
       },

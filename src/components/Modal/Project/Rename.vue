@@ -28,8 +28,8 @@
     mixins: [closeModal],
     created () {
       this.name = {
-        original: this.active.project.name,
-        new: this.active.project.name
+        original: this.project.name,
+        new: this.project.name
       }
     },
     beforeDestroy () {
@@ -46,7 +46,8 @@
         'active'
       ]),
       ...mapGetters([
-        'projectNames'
+        'projectNames',
+        'project'
       ]),
 
       showModal () {
@@ -75,7 +76,7 @@
     methods: {
       renameProject () {
         if (this.validated) {
-          this.$store.dispatch('RENAME_PROJECT', { name: this.name.new })
+          this.$store.dispatch('RENAME_PROJECT', Object.assign({}, this.project, { name: this.name.new }))
         }
       }
     }

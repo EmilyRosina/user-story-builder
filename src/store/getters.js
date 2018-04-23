@@ -19,7 +19,7 @@ export default {
     return Object.keys(state.projects).length > 1
   },
   project (state) {
-    return state.projects[state.active.project.id]
+    return state.projects[state.active.projectId]
   },
   projectIds (state) {
     return Object.keys(state.projects)

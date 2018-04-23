@@ -1,36 +1,36 @@
 import Vue from 'vue'
 
 export default {
-  localStorage__addProject (state, payload) {
-    localStorage[payload.id] = JSON.stringify(payload.project)
+  localStorage__addProject (state, project) {
+    localStorage[project.id] = JSON.stringify(project)
   },
-  localStorage__updateProject (state, payload) {
-    localStorage[payload.project.id] = JSON.stringify(payload.project)
+  localStorage__updateProject (state, project) {
+    localStorage[project.id] = JSON.stringify(project)
   },
-  localStorage__deleteProject (state, payload) {
-    localStorage.removeItem(payload.id)
+  localStorage__deleteProject (state, projectId) {
+    localStorage.removeItem(projectId)
+  },
+  setActiveProjectId (state, projectId) {
+    state.active.projectId = projectId
   },
   setActiveTab (state, payload) {
     state.active.tab = payload.tabName
   },
-  addProject (state, payload) {
-    Vue.set(state.projects, payload.id, payload)
+  addProject (state, project) {
+    Vue.set(state.projects, project.id, project)
+    // state.active.projectId = project.id
   },
-  renameProject (state, payload) {
-    state.projects[payload.id].name = payload.name
-    state.active.project.name = payload.name
-  },
-  setProjectData (state, project) {
-    state.active.project = project
+  renameProject (state, project) {
+    state.projects[project.id].name = project.name
   },
   updateProjectData (state, project) {
     state.projects[project.id] = project
   },
-  setProjects (state, payload) {
-    state.projects = payload.projects
+  setProjects (state, projects) {
+    state.projects = projects
   },
-  deleteProject (state, payload) {
-    Vue.delete(state.projects, payload.id)
+  deleteProject (state, projectId) {
+    Vue.delete(state.projects, projectId)
   },
   deleteAllProjects (state) {
     state.projects = {}

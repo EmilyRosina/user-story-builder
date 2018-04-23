@@ -30,7 +30,7 @@
     name: 'modal-switch-project',
     mixins: [closeModal],
     created () {
-      this.selectedProjectId = this.active.project.id
+      this.selectedProjectId = this.active.projectId
     },
     data () {
       return {
@@ -50,13 +50,12 @@
         return this.active.modal === 'switchProject'
       },
       validated () {
-        return this.selectedProjectId !== this.active.project.id
+        return this.selectedProjectId !== this.active.projectId
       }
     },
     methods: {
       switchProject () {
-        let project = this.projects[this.selectedProjectId]
-        this.$store.commit('setProjectData', project)
+        this.$store.commit('setActiveProjectId', this.selectedProjectId)
         this.closeModal()
       }
     }

@@ -2,14 +2,7 @@ export default {
   active: {
     modal: '',
     tab: '',
-    dataGroupIndex: null,
-    project: {
-      id: '',
-      name: '',
-      dataGroups: [],
-      userStories: [],
-      userJourney: []
-    }
+    projectId: ''
   },
   projects: {},
   breakpoint: ''

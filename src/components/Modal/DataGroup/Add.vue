@@ -82,7 +82,7 @@
     },
     methods: {
       ...mapActions([
-        'ADD_DATA_GROUP'
+        'SET_PROJECT_DATA'
       ]),
 
       hasNoName (property) {
@@ -111,12 +111,9 @@
         this.properties.splice(index, 1)
       },
       addDataGroup () {
-        let dataGroups = this.project.dataGroups.push({ name: this.name, properties: this.properties })
-        this.ADD_DATA_GROUP(Object.assign({}, this.project, dataGroups))
-        // this.$store.state.active.dataGroups.push({
-        //   name: this.name,
-        //   properties: this.properties
-        // })
+        let dataGroups = this.project.dataGroups.concat({ name: this.name, properties: this.properties, id: this.id })
+        let project = Object.assign({}, this.project, { dataGroups })
+        this.SET_PROJECT_DATA(project)
         this.closeModal()
       }
     },

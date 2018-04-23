@@ -44,6 +44,8 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
+
   export default {
     data () {
       return {
@@ -69,9 +71,16 @@
         this.properties.splice(index, 1)
       },
       addNewDataGroup () {
-        this.$store.state.active.dataGroups.push({
+        // this.$store.state.active.dataGroups.push({
+        //   name: this.name,
+        //   properties: this.properties
+        // })
+        this.$store.commit('addNewDataGroup', {
           name: this.name,
           properties: this.properties
+        })
+        .then(_ => {
+          console.log('new data group added!')
         })
         this.cancel()
       },
@@ -80,10 +89,14 @@
       }
     },
     computed: {
+      ...mapGetters([
+        'project'
+      ]),
+
       validationChecks () {
         return {
           hasName: this.name !== '',
-          nameIsUnique: !this.$store.state.active.project.dataGroups
+          nameIsUnique: !this.project.dataGroups
             .map(dataGroup => dataGroup.name)
             .includes(this.name),
           typing: this.firstChance === false

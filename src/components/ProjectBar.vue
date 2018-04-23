@@ -1,6 +1,6 @@
 <template>
   <div class="project-bar">
-    <h4 class="project-name">{{ active.project.name }}</h4>
+    <h4 class="project-name">{{ project.name }}</h4>
     <el-button type="info" plain icon="el-icon-more" circle size="mini" class="icon--info" v-popover:options></el-button>
 
     <el-popover trigger="hover" ref="options" placement="bottom-end" :visible-arrow="false" popper-class="options">
@@ -53,7 +53,8 @@
       ...mapGetters([
         'hasMultipleProjects',
         'projectNames',
-        'modalShowing'
+        'modalShowing',
+        'project'
       ]),
       showOptions () {
         return this.options.mode !== null
@@ -72,7 +73,7 @@
             center: true
           })
           .then(() => {
-            this.$store.dispatch('DELETE_PROJECT', { id: this.active.project.id })
+            this.$store.dispatch('DELETE_PROJECT', this.project.id)
           })
       },
       deleteAllProjects () {
