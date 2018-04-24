@@ -16,9 +16,9 @@
 </template>
 
 <script>
-  import BtnAddDataGroup from '@/components/DataGroup/Add'
-  import DataGroupList from '@/components/DataGroup/List'
-  import ModalAddDataGroup from '@/components/Modal/DataGroup/Add'
+  import BtnAddDataGroup from '@/components/BtnAddDataGroup'
+  import DataGroupList from '@/components/DataGroupList'
+  import ModalAddDataGroup from '@/components/Modal/AddDataGroup'
   import { mapGetters } from 'vuex'
   import { redirectIfNewUser } from 'utils/mixins'
 

@@ -8,6 +8,7 @@
   import { mapMutations } from 'vuex'
 
   export default {
+    name: 'btn-add-data-group',
     methods: {
       ...mapMutations([
         'openModal'

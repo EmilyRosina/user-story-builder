@@ -1,9 +1,9 @@
 <template>
-  <div class="data-group-block">
+  <div class="data-group">
     <el-row type="flex" align="middle" @click.native="openOptions()">
-      <h2 class="data-group-block__name">{{ dataGroup.name }}</h2>
-      <el-tag class="data-group-block__property-length" :type="tagType" size="mini">{{ propertyLengthText }}</el-tag>
-      <div class="data-group-block__property-list">
+      <h2 class="data-group__name">{{ dataGroup.name }}</h2>
+      <el-tag class="data-group__property-length" :type="tagType" size="mini">{{ propertyLengthText }}</el-tag>
+      <div class="data-group__property-list">
         <span v-for="property in dataGroup.properties" :key="property.key" class="property">{{ property.value}}</span>
       </div>
     </el-row>
@@ -19,7 +19,7 @@
   import { mapGetters } from 'vuex'
 
   export default {
-    name: 'data-group-block',
+    name: 'data-group',
     props: {
       index: {
         type: Number,
@@ -85,7 +85,7 @@
 </script>
 
 <style lang="scss" scoped>
-  .data-group-block {
+  .data-group {
     position: relative;
     overflow: hidden;
     background: darken($grey, 10%);
