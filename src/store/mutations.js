@@ -10,6 +10,9 @@ export default {
   localStorage__deleteProject (state, projectId) {
     localStorage.removeItem(projectId)
   },
+  setActiveDataGroupId (state, dataGroupId) {
+    state.active.dataGroupId = dataGroupId
+  },
   setActiveProjectId (state, projectId) {
     state.active.projectId = projectId
   },
@@ -18,7 +21,6 @@ export default {
   },
   addProject (state, project) {
     Vue.set(state.projects, project.id, project)
-    // state.active.projectId = project.id
   },
   renameProject (state, project) {
     state.projects[project.id].name = project.name

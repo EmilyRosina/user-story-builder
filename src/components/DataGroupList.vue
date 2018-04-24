@@ -1,8 +1,8 @@
 <template>
   <el-col>
     <el-row :gutter="20" no-gutters>
-      <el-col :sm="12" :lg="8" v-for="(dataGroup, index) in dataGroups" :key="dataGroup.id">
-        <data-group :dataGroup="dataGroup" :index="index"></data-group>
+      <el-col :sm="12" :lg="8" v-for="(dataGroup, key) in dataGroups" :key="key">
+        <data-group :dataGroup="dataGroup"></data-group>
       </el-col>
     </el-row>
   </el-col>

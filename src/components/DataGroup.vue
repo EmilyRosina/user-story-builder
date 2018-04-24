@@ -1,5 +1,6 @@
 <template>
   <div class="data-group">
+
     <el-row type="flex" align="middle" @click.native="openOptions()">
       <h2 class="data-group__name">{{ dataGroup.name }}</h2>
       <el-tag class="data-group__property-length" :type="tagType" size="mini">{{ propertyLengthText }}</el-tag>
@@ -12,23 +13,25 @@
       <div @click="editDataGroup()" :class="['options-overlay__edit', ifSelected('edit')]">Edit</div>
       <div @click="deleteDataGroup()" :class="['options-overlay__delete', ifSelected('delete')]">{{ selected === 'delete' ? 'Are you sure?' : 'Delete' }}</div>
     </el-row>
+
+    <modal-edit-data-group v-if="modalShowing.editDataGroup && dataGroup.id === active.dataGroupId" :dataGroupData="dataGroup"></modal-edit-data-group>
   </div>
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
+  import { mapGetters, mapState } from 'vuex'
+  import ModalEditDataGroup from '@/components/Modal/EditDataGroup'
 
   export default {
     name: 'data-group',
     props: {
-      index: {
-        type: Number,
-        required: true
-      },
       dataGroup: {
         type: Object,
         required: true
       }
+    },
+    components: {
+      ModalEditDataGroup
     },
     data () {
       return {
@@ -37,8 +40,12 @@
       }
     },
     computed: {
+      ...mapState([
+        'active'
+      ]),
       ...mapGetters([
-        'project'
+        'project',
+        'modalShowing'
       ]),
 
       propertyLengthText () {
@@ -52,30 +59,32 @@
         return this.propertiesLength === 0 ? 'info' : 'warning'
       },
       propertiesLength () {
-        return this.dataGroup.properties.length
+        return Object.keys(this.dataGroup.properties).length
       }
     },
     methods: {
       openOptions () {
         this.showOptions = true
-        // this.$message({ message: `hi ${this.showOptions}` })
-      },
-      ifSelected (selection) {
-        return { 'active': this.selected === selection }
       },
       closeOptions () {
         this.showOptions = false
         this.selected = null
-        // this.$message({ message: `bye ${this.showOptions}` })
+      },
+      ifSelected (selection) {
+        return { 'active': this.selected === selection }
       },
       editDataGroup () {
-        this.selected = 'edit'
-        this.$message({ message: `Open edit dataGrop modal -- index ${this.index} --  dataGroup ${this.dataGroup.name}` })
+        this.closeOptions()
+        this.$store.commit('setActiveDataGroupId', this.dataGroup.id)
+        this.$store.commit('openModal', 'editDataGroup')
       },
-      deleteDataGroup (dataGroup, index) {
+      deleteDataGroup () {
         if (this.selected !== 'delete') this.selected = 'delete' // acts as a buffer
         else {
-          let project = Object.assign({}, this.project, { dataGroups: this.project.dataGroups.filter(dg => dg.id !== this.dataGroup.id) })
+          let dataGroups = Object.assign({}, this.project.dataGroups)
+          delete dataGroups[this.dataGroup.id]
+          let project = Object.assign({}, this.project, { dataGroups })
+          this.closeOptions()
           this.$store.dispatch('SET_PROJECT_DATA', project)
           this.$message({ message: `Deleted dataGroup ${this.dataGroup.name}`, type: 'success' })
         }

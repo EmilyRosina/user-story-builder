@@ -180,6 +180,7 @@
   .el-main {
     background: #444;
     color: white;
+    position: relative;
   }
   .el-footer {
     @extend %flex--center;

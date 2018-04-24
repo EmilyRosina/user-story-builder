@@ -2,14 +2,9 @@ export default {
   active: {
     modal: '',
     tab: '',
-    projectId: ''
+    projectId: '',
+    dataGroupId: ''
   },
   projects: {},
   breakpoint: ''
-  // ui: {
-  //   dataGroup: {
-  //     adding: false,
-  //     editing: false
-  //   }
-  // }
 }

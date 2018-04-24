@@ -1,8 +1,8 @@
 const project = {
   name: '',
-  dataGroups: [],
-  userStories: [],
-  userJourneys: []
+  dataGroups: {},
+  userStories: {},
+  userJourneys: {}
 }
 
 export default {

@@ -9,7 +9,11 @@ const redirectIfNewUser = {
 
 const closeModal = {
   methods: {
-    closeModal () {
+    closeModal (activePropToBeSet = null) {
+      if (activePropToBeSet) {
+        activePropToBeSet = activePropToBeSet.charAt(0).toUpperCase() + activePropToBeSet.slice(1)
+        this.$store.commit(`setActive${activePropToBeSet}`, '')
+      }
       this.$store.commit('closeModal')
     }
   }

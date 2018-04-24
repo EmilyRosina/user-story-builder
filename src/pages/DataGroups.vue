@@ -2,6 +2,7 @@
   <main-layout>
 
     <el-tag v-if="false" type="warning">Coming soon...</el-tag>
+
     <modal-add-data-group v-if="modalShowing.addDataGroup"></modal-add-data-group>
 
     <el-row>
@@ -40,7 +41,7 @@
       ]),
 
       haveDataGroups () {
-        return this.project.dataGroups.length > 0
+        return Object.keys(this.project.dataGroups).length > 0
       }
 
     }

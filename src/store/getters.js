@@ -18,6 +18,9 @@ export default {
   hasMultipleProjects (state, getters) {
     return Object.keys(state.projects).length > 1
   },
+  dataGroup (state, getters) {
+    return state.active.dataGroupId ? getters.project.dataGroups[state.active.dataGroupId] : null
+  },
   project (state) {
     return state.projects[state.active.projectId]
   },

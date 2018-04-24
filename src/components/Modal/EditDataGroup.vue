@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    title="add data group"
+    title="edit data group"
     :visible="showModal"
     :width="modalWidth"
     :close-on-click-modal="false"
@@ -12,7 +12,7 @@
         <el-col>
           <span class="subtitle required">Name</span>
           <el-row type="flex">
-            <el-input v-model.trim="name" class="centered" @keydown.once.native="typing = true" @blur.once.native="typing = true"></el-input>
+            <el-input v-model.trim="name" class="centered"></el-input>
           </el-row>
           <el-tag v-for="(error, index) in errors.name" :key="`name_error_${index}`" type="danger">{{ error }}</el-tag>
         </el-col>
@@ -23,15 +23,15 @@
           <span v-if="hasProperties" class="subtitle">Properties</span>
 
           <template v-if="hasProperties">
-            <el-row type="flex" class="no-gutter" v-for="(property, key) in properties" :key="key">
+            <el-row type="flex" class="no-gutter" v-for="(property, index) in properties" :key="property.key">
               <icon name="leaf" v-if="property.new" style="color: yellowgreen; position: absolute; z-index: 100; left: -5px; top: -2px;"/>
-              <el-input
+              <input
                 placeholder=""
                 v-model.trim="property.value"
-                @keydown.once.native="startTyping(key)"
-                :class="['property-input', {'has-errors': !isUnique(property.value) || hasNoName(property)}]" />
+                @keydown.once.native="startTyping(property.key)"
+                :class="['property-input', 'el-input', {'has-errors': !validationChecks.nameIsUnique || !validationChecks.hasName}]" />
               <el-button-group class="joint-input">
-                <el-button @click="removeProperty(key)" type="warning" plain class="remove">
+                <el-button @click="removeProperty(index)" type="warning" plain class="remove">
                   <icon name="minus" scale="0.75" />
                 </el-button>
                 <el-button @click="addProperty()" type="warning" plain class="add" :disabled="property === ''">
@@ -43,7 +43,7 @@
 
           <template v-else>
             <el-row type="flex" class="no-gutter">
-              <el-button type="warning" plain @click.native="addProperty()" class="U--full-width" :disabled="!typing">Add Property</el-button>
+              <el-button type="warning" plain @click.native="addProperty()" class="U--full-width">Add Property</el-button>
             </el-row>
           </template>
 
@@ -53,7 +53,7 @@
     </span>
 
     <span slot="footer">
-      <el-button plain @click="addDataGroup" type="success" :disabled="!validated" class="U--full-width">Add data group</el-button>
+      <el-button plain @click="saveDataGroup" type="success" :disabled="!validated" class="U--full-width">Save changes</el-button>
     </span>
 
   </el-dialog>
@@ -64,54 +64,41 @@
   import { mapState, mapGetters, mapActions } from 'vuex'
 
   export default {
-    name: 'modal-add-data-group',
+    name: 'modal-edit-data-group',
     mixins: [closeModal],
     data () {
       return {
-        id: '',
-        name: '',
-        properties: {},
-        typing: false
+        id: this.dataGroup.id,
+        name: this.dataGroup.name,
+        properties: this.dataGroup.properties
       }
-    },
-    created () {
-      this.id = Date.now()
     },
     methods: {
       ...mapActions([
         'SET_PROJECT_DATA'
       ]),
 
-      hasNoName (property) {
-        return property.new ? false : property.value === ''
-      },
       startTyping (key) {
         delete this.properties[key].new
       },
-      isUnique (name) {
-        return name !== '' ? !this.nonUniqueProperties.includes(name) : true
-      },
-      addProperty () {
-        let id = Date.now()
-        this.$set(this.properties, id, {
-          id,
-          value: '',
+      addProperty (value = '') {
+        const key = Date.now()
+        this.properties[key] = {
+          key,
+          value,
           new: true
-        })
+        }
       },
       removeProperty (key) {
         delete this.properties[key]
       },
-      addDataGroup () {
-        let dataGroups = Object.assign({}, this.project.dataGroups)
-        dataGroups[this.id] = {
-          id: this.id,
-          name: this.name,
-          properties: this.properties
-        }
-        let project = Object.assign({}, this.project, { dataGroups })
-        this.SET_PROJECT_DATA(project)
-        this.closeModal()
+      saveDataGroup () {
+        this.$message({message: `save this shit`})
+        // let dataGroups = Object.assign({}, this.project.dataGroups,
+        // dataGroups[this.index] = Object.assign({}, this.dataGroup, { name: this.name, properties: this.properties })
+        // let project = Object.assign({}, this.project, { dataGroups })
+        // this.SET_PROJECT_DATA(project)
+        // this.closeModal('dataGroupId')
       }
     },
     computed: {
@@ -120,22 +107,23 @@
       ]),
       ...mapGetters([
         'project',
+        'dataGroup',
         'breakpointIs'
       ]),
 
       showModal () {
-        return this.active.modal === 'addDataGroup'
+        return this.active.modal === 'editDataGroup'
       },
       modalWidth () {
         return this.breakpointIs('xs') ? '90%' : '500px'
       },
       nonUniqueProperties () {
         let propertiesMap = {}
-        Object.keys(this.properties)
-          .forEach(propKey => {
-            propertiesMap[this.properties[propKey].value]
-              ? propertiesMap[this.properties[propKey].value] = 'not unique'
-              : propertiesMap[this.properties[propKey].value] = 'unique'
+        this.properties
+          .forEach(prop => {
+            propertiesMap[prop.value]
+              ? propertiesMap[prop.value] = 'not unique'
+              : propertiesMap[prop.value] = 'unique'
           })
         Object.keys(propertiesMap).forEach(propKey => {
           if (propertiesMap[propKey] === 'unique' || propKey === '') delete propertiesMap[propKey]
@@ -145,28 +133,29 @@
       validationChecks () {
         return {
           hasName: this.name !== '',
-          typing: this.typing === true,
-          propertyNamesAreUnique: !this.nonUniqueProperties.length > 0,
-          nameIsUnique: !Object.keys(this.project.dataGroups)
-            .map(key => this.project.dataGroups[key].name)
+          nameIsUnique: !this.project.dataGroups
+            .filter(dataGroup => dataGroup.id !== this.id)
+            .map(dataGroup => dataGroup.name)
             .includes(this.name),
-          allPropertiesHaveNames: this.project.dataGroups.properties ? !Object.values(this.project.dataGroups.properties).includes('') : true,
-          propertiesHaveNames: this.project.dataGroups.properties
-            ? !Object.keys(this.project.dataGroups.properties).includes('')
-            : true
+          allPropertiesHaveNames: !this.properties.map(prop => prop.value).includes(''),
+          propertiesHaveNames: !this.properties.filter(prop => !prop.new).map(prop => prop.value).includes(''),
+          propertyNamesAreUnique: !this.nonUniqueProperties.length > 0,
+          hasChanges: {
+            orig: this.project.dataGroups[this.index],
+            new: this.updatedDataGroup,
+            result: this.updatedDataGroup === this.project.dataGroups[this.index]
+          }
         }
       },
       errors () {
         let [name, properties] = [[], [], []]
         let check = this.validationChecks
-        if (check.typing) {
-          // name
-          if (!check.hasName) { name.push('You must supply a name') }
-          if (!check.nameIsUnique) { name.push('Name already exists') }
-          // properties
-          if (!check.propertiesHaveNames) { properties.push('All properties must be named') }
-          if (!check.propertyNamesAreUnique) { properties.push(`Properties [${this.nonUniqueProperties.join('] [')}] are not unique`) }
-        }
+        // name
+        if (!check.hasName) { name.push('You must supply a name') }
+        if (!check.nameIsUnique) { name.push('Name already exists') }
+        // properties
+        if (!check.propertiesHaveNames) { properties.push('All properties must be named') }
+        if (!check.propertyNamesAreUnique) { properties.push(`Properties [${this.nonUniqueProperties.join('] [')}] are not unique`) }
         return {
           name,
           properties
@@ -176,10 +165,10 @@
         return !Object.values(this.validationChecks).includes(false)
       },
       hasProperties () {
-        return this.propertyNames.length > 0
+        return this.properties.length > 0
       },
       propertyNames () {
-        return Object.keys(this.properties).map(key => this.properties[key].value)
+        return this.properties.map(property => property.value)
       }
     }
   }
