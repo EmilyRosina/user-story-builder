@@ -2,6 +2,7 @@
 import { Message, Notification } from 'element-ui'
 // http://element.eleme.io/#/en-US/component/notification
 // http://element.eleme.io/#/en-US/component/message
+import router from '@/router'
 
 export default {
   GET_PROJECTS (context) {
@@ -120,6 +121,7 @@ export default {
         }
       })
       .then((stillOk) => {
+        router.push({ name: 'home' })
         Notification.success({
           title: `Deletion successful`,
           message: `Project <b>${name}</b> successfully deleted`,
@@ -149,6 +151,7 @@ export default {
       .then((stillOk) => {
         if (stillOk) {
           context.commit('setActiveProjectId', null)
+          router.push({ name: 'home' })
           Notification.success({
             title: `Deletion successful`,
             message: `All projects successfully deleted`,
