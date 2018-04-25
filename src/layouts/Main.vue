@@ -186,6 +186,7 @@
     @extend %flex--center;
     background: #222;
     color: lightseagreen;
+    position: relative;
   }
 
   .github {
