@@ -100,6 +100,7 @@
     background: darken($grey, 10%);
     padding: 1em;
     margin-top: 2em;
+    user-select: none;
 
     &__property-list {
       display: block;
@@ -153,6 +154,7 @@
         height: 100%;
         transition: 1s;
         cursor: pointer;
+        user-select: none;
 
         &.active {
           flex-basis: 70%;
