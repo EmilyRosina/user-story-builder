@@ -1,7 +1,7 @@
 <template>
   <main-layout>
 
-    <el-tag v-if="false" type="warning">Coming soon...</el-tag>
+    <el-tag v-if="dataGroupsIsArray" type="danger" class="el-tag--text-wrap">Not using latest version of datagroups builder, please delete this project</el-tag>
 
     <modal-add-data-group v-if="modalShowing.addDataGroup"></modal-add-data-group>
 
@@ -40,8 +40,11 @@
         'project'
       ]),
 
+      dataGroupsIsArray () {
+        return this.project ? Array.isArray(this.project.dataGroups) : false
+      },
       haveDataGroups () {
-        return Object.keys(this.project.dataGroups).length > 0
+        return this.project ? Object.keys(this.project.dataGroups).length > 0 : false
       }
 
     }
@@ -49,5 +52,9 @@
 </script>
 
 <style lang="scss" scoped>
-
+  .el-tag--text-wrap {
+    white-space: normal;
+    height: auto;
+    line-height: 1.5rem;
+  }
 </style>
