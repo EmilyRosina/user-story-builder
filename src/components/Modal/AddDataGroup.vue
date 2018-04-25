@@ -14,22 +14,27 @@
           <el-row type="flex">
             <el-input v-model.trim="name" class="centered" @keydown.once.native="typing = true" @blur.once.native="typing = true"></el-input>
           </el-row>
-          <el-tag v-for="(error, index) in errors.name" :key="`name_error_${index}`" type="danger">{{ error }}</el-tag>
+          <el-row class="error__wrapper">
+            <el-tag v-for="(error, index) in errors.name" :key="`name_error_${index}`" type="danger">{{ error.text }}</el-tag>
+          </el-row>
         </el-col>
       </el-row>
 
       <el-row class="section">
         <el-col>
           <span v-if="hasProperties" class="subtitle">Properties</span>
-
           <template v-if="hasProperties">
             <el-row type="flex" class="no-gutter" v-for="(property, key) in properties" :key="key">
-              <icon name="leaf" v-if="property.new" style="color: yellowgreen; position: absolute; z-index: 100; left: -5px; top: -2px;"/>
-              <el-input
-                placeholder=""
-                v-model.trim="property.value"
-                @keydown.once.native="startTyping(key)"
-                :class="['property-input', {'has-errors': !isUnique(property.value) || hasNoName(property)}]" />
+              <icon name="leaf" v-if="property._isNew()" style="color: yellowgreen; position: absolute; z-index: 100; left: -5px; top: -2px;"/>
+              <div style="position: relative; display: flex; flex: 1 1 0%;">
+                <el-input
+                  placeholder=""
+                  v-model.trim="property.value"
+                  @keydown.once.native="startTyping(key)"
+                  :class="['property-input', {'has-errors': !isUnique(property.value) || hasNoName(property)}]" />
+                  <icon name="clone" v-if="nonUniqueProperties.includes(property.value)" style="position: absolute; color: tomato; right: 0.75em; top: 0.75em;" />
+                  <icon name="exclamation-triangle" v-if="!property._isNew() && property._hasNoName()" style="position: absolute; color: tomato; right: 0.75em; top: 0.85em;" />
+              </div>
               <el-button-group class="joint-input">
                 <el-button @click="removeProperty(key)" type="warning" plain class="remove">
                   <icon name="minus" scale="0.75" />
@@ -46,8 +51,12 @@
               <el-button type="warning" plain @click.native="addProperty()" class="U--full-width" :disabled="!typing">Add Property</el-button>
             </el-row>
           </template>
-
-          <el-tag v-for="(error, index) in errors.properties" :key="`property_error_${index}`" type="danger">{{ error }}</el-tag>
+          <el-row class="error__wrapper">
+            <el-tag v-for="(error, index) in errors.properties" :key="`property_error_${index}`" type="danger">
+              <icon :name="error.icon" v-if="error.icon" />
+              {{ error.text }}
+            </el-tag>
+          </el-row>
         </el-col>
       </el-row>
     </span>
@@ -60,12 +69,12 @@
 </template>
 
 <script>
-  import { closeModal } from 'utils/mixins'
+  import { closeModal, addEditDataGroup } from 'utils/mixins'
   import { mapState, mapGetters, mapActions } from 'vuex'
 
   export default {
     name: 'modal-add-data-group',
-    mixins: [closeModal],
+    mixins: [closeModal, addEditDataGroup],
     data () {
       return {
         id: '',
@@ -75,7 +84,7 @@
       }
     },
     created () {
-      this.id = Date.now()
+      this.id = String(Date.now())
     },
     methods: {
       ...mapActions([
@@ -85,22 +94,8 @@
       hasNoName (property) {
         return property.new ? false : property.value === ''
       },
-      startTyping (key) {
-        delete this.properties[key].new
-      },
       isUnique (name) {
         return name !== '' ? !this.nonUniqueProperties.includes(name) : true
-      },
-      addProperty () {
-        let id = Date.now()
-        this.$set(this.properties, id, {
-          id,
-          value: '',
-          new: true
-        })
-      },
-      removeProperty (key) {
-        delete this.properties[key]
       },
       addDataGroup () {
         let dataGroups = Object.assign({}, this.project.dataGroups)
@@ -125,61 +120,6 @@
 
       showModal () {
         return this.active.modal === 'addDataGroup'
-      },
-      modalWidth () {
-        return this.breakpointIs('xs') ? '90%' : '500px'
-      },
-      nonUniqueProperties () {
-        let propertiesMap = {}
-        Object.keys(this.properties)
-          .forEach(propKey => {
-            propertiesMap[this.properties[propKey].value]
-              ? propertiesMap[this.properties[propKey].value] = 'not unique'
-              : propertiesMap[this.properties[propKey].value] = 'unique'
-          })
-        Object.keys(propertiesMap).forEach(propKey => {
-          if (propertiesMap[propKey] === 'unique' || propKey === '') delete propertiesMap[propKey]
-        })
-        return Object.keys(propertiesMap)
-      },
-      validationChecks () {
-        return {
-          hasName: this.name !== '',
-          typing: this.typing === true,
-          propertyNamesAreUnique: !this.nonUniqueProperties.length > 0,
-          nameIsUnique: !Object.keys(this.project.dataGroups)
-            .map(key => this.project.dataGroups[key].name)
-            .includes(this.name),
-          allPropertiesHaveNames: this.project.dataGroups.properties ? !Object.values(this.project.dataGroups.properties).includes('') : true,
-          propertiesHaveNames: this.project.dataGroups.properties
-            ? !Object.keys(this.project.dataGroups.properties).includes('')
-            : true
-        }
-      },
-      errors () {
-        let [name, properties] = [[], [], []]
-        let check = this.validationChecks
-        if (check.typing) {
-          // name
-          if (!check.hasName) { name.push('You must supply a name') }
-          if (!check.nameIsUnique) { name.push('Name already exists') }
-          // properties
-          if (!check.propertiesHaveNames) { properties.push('All properties must be named') }
-          if (!check.propertyNamesAreUnique) { properties.push(`Properties [${this.nonUniqueProperties.join('] [')}] are not unique`) }
-        }
-        return {
-          name,
-          properties
-        }
-      },
-      validated () {
-        return !Object.values(this.validationChecks).includes(false)
-      },
-      hasProperties () {
-        return this.propertyNames.length > 0
-      },
-      propertyNames () {
-        return Object.keys(this.properties).map(key => this.properties[key].value)
       }
     }
   }
@@ -206,5 +146,8 @@
   }
   .property-input {
     flex: 1 1 0%;
+  }
+  .error__wrapper {
+    margin-top: 0.75em;
   }
 </style>

@@ -60,17 +60,18 @@
 </template>
 
 <script>
-  import { closeModal } from 'utils/mixins'
+  import { closeModal, addEditDataGroup } from 'utils/mixins'
   import { mapState, mapGetters, mapActions } from 'vuex'
 
   export default {
     name: 'modal-edit-data-group',
-    mixins: [closeModal],
+    mixins: [closeModal, addEditDataGroup],
     data () {
       return {
         id: this.dataGroup.id,
         name: this.dataGroup.name,
-        properties: this.dataGroup.properties
+        properties: this.dataGroup.properties,
+        typing: true
       }
     },
     methods: {
@@ -78,20 +79,6 @@
         'SET_PROJECT_DATA'
       ]),
 
-      startTyping (key) {
-        delete this.properties[key].new
-      },
-      addProperty (value = '') {
-        const key = Date.now()
-        this.properties[key] = {
-          key,
-          value,
-          new: true
-        }
-      },
-      removeProperty (key) {
-        delete this.properties[key]
-      },
       saveDataGroup () {
         this.$message({message: `save this shit`})
         // let dataGroups = Object.assign({}, this.project.dataGroups,
@@ -113,62 +100,6 @@
 
       showModal () {
         return this.active.modal === 'editDataGroup'
-      },
-      modalWidth () {
-        return this.breakpointIs('xs') ? '90%' : '500px'
-      },
-      nonUniqueProperties () {
-        let propertiesMap = {}
-        this.properties
-          .forEach(prop => {
-            propertiesMap[prop.value]
-              ? propertiesMap[prop.value] = 'not unique'
-              : propertiesMap[prop.value] = 'unique'
-          })
-        Object.keys(propertiesMap).forEach(propKey => {
-          if (propertiesMap[propKey] === 'unique' || propKey === '') delete propertiesMap[propKey]
-        })
-        return Object.keys(propertiesMap)
-      },
-      validationChecks () {
-        return {
-          hasName: this.name !== '',
-          nameIsUnique: !this.project.dataGroups
-            .filter(dataGroup => dataGroup.id !== this.id)
-            .map(dataGroup => dataGroup.name)
-            .includes(this.name),
-          allPropertiesHaveNames: !this.properties.map(prop => prop.value).includes(''),
-          propertiesHaveNames: !this.properties.filter(prop => !prop.new).map(prop => prop.value).includes(''),
-          propertyNamesAreUnique: !this.nonUniqueProperties.length > 0,
-          hasChanges: {
-            orig: this.project.dataGroups[this.index],
-            new: this.updatedDataGroup,
-            result: this.updatedDataGroup === this.project.dataGroups[this.index]
-          }
-        }
-      },
-      errors () {
-        let [name, properties] = [[], [], []]
-        let check = this.validationChecks
-        // name
-        if (!check.hasName) { name.push('You must supply a name') }
-        if (!check.nameIsUnique) { name.push('Name already exists') }
-        // properties
-        if (!check.propertiesHaveNames) { properties.push('All properties must be named') }
-        if (!check.propertyNamesAreUnique) { properties.push(`Properties [${this.nonUniqueProperties.join('] [')}] are not unique`) }
-        return {
-          name,
-          properties
-        }
-      },
-      validated () {
-        return !Object.values(this.validationChecks).includes(false)
-      },
-      hasProperties () {
-        return this.properties.length > 0
-      },
-      propertyNames () {
-        return this.properties.map(property => property.value)
       }
     }
   }
