@@ -2,6 +2,7 @@
   <main-layout>
 
     <el-tag v-if="dataGroupsIsArray" type="danger" class="el-tag--text-wrap">Not using latest version of datagroups builder, please delete this project</el-tag>
+    {{ project.dataGroups }}
 
     <modal-add-data-group v-if="modalShowing.addDataGroup"></modal-add-data-group>
 
@@ -46,7 +47,6 @@
       haveDataGroups () {
         return this.project ? Object.keys(this.project.dataGroups).length > 0 : false
       }
-
     }
   }
 </script>
