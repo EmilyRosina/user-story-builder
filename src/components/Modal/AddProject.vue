@@ -14,7 +14,7 @@
     </section>
 
     <span slot="footer">
-      <el-button plain @click="addProject" type="success" :disabled="!validated" class="U--full-width">Add data group</el-button>
+      <el-button plain @click="addProject" type="success" :disabled="!validated" class="U--full-width">Add project</el-button>
     </span>
 
   </el-dialog>
