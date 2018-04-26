@@ -128,14 +128,19 @@
         }
         let project = Object.assign({}, this.project, { dataGroups })
         this.SET_PROJECT_DATA(project)
+          .then(_ => {
+            this.$message({ message: `${this.name} successfully added`, type: 'success' })
+          })
         this.closeModal()
       },
       saveDataGroup () {
-        this.$message({message: `save this shit`})
-        // let dataGroups = Object.assign({}, this.project.dataGroups,
-        // dataGroups[this.index] = Object.assign({}, this.dataGroup, { name: this.name, properties: this.properties })
-        // let project = Object.assign({}, this.project, { dataGroups })
-        // this.SET_PROJECT_DATA(project)
+        let dataGroups = Object.assign({}, this.project.dataGroups)
+        dataGroups[this.id] = Object.assign({}, this.updatedDataGroup)
+        let project = Object.assign({}, this.project, { dataGroups })
+        this.SET_PROJECT_DATA(project)
+          .then(_ => {
+            this.$message({ message: `${this.name} successfully updated`, type: 'success' })
+          })
         this.closeModal('dataGroupId')
       }
     },
