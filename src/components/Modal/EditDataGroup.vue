@@ -23,12 +23,12 @@
           <span v-if="hasProperties" class="subtitle">Properties</span>
 
           <template v-if="hasProperties">
-            <el-row type="flex" class="no-gutter" v-for="(property, index) in properties" :key="property.key">
+            <el-row type="flex" class="no-gutter" v-for="(property, key) in properties" :key="key">
               <icon name="leaf" v-if="property.new" style="color: yellowgreen; position: absolute; z-index: 100; left: -5px; top: -2px;"/>
-              <input
+              <el-input
                 placeholder=""
                 v-model.trim="property.value"
-                @keydown.once.native="startTyping(property.key)"
+                @keydown.once.native="startTyping(key)"
                 :class="['property-input', 'el-input', {'has-errors': !validationChecks.nameIsUnique || !validationChecks.hasName}]" />
               <el-button-group class="joint-input">
                 <el-button @click="removeProperty(index)" type="warning" plain class="remove">
@@ -47,7 +47,10 @@
             </el-row>
           </template>
 
-          <el-tag v-for="(error, index) in errors.properties" :key="`property_error_${index}`" type="danger">{{ error }}</el-tag>
+          <el-tag v-for="(error, index) in errors.properties" :key="`property_error_${index}`" type="danger">
+            <icon :name="error.icon" v-if="error.icon" />
+            {{ error.text }}
+          </el-tag>
         </el-col>
       </el-row>
     </span>

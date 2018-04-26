@@ -25,7 +25,15 @@ const addEditDataGroup = {
       this.properties[key].new = false
     },
     addProperty () {
-      let id = Date.now()
+      let id = String(Date.now())
+      console.log('addProperty', Object.values(this.properties), id)
+      // this.properties[id] = {
+      //   id,
+      //   value: '',
+      //   new: true,
+      //   _isNew () { return this.new },
+      //   _hasNoName () { return this.value === '' }
+      // }
       this.$set(this.properties, id, {
         id,
         value: '',
@@ -60,22 +68,15 @@ const addEditDataGroup = {
         hasName: this.name !== '',
         typing: this.typing === true,
         propertyNamesAreUnique: !this.nonUniqueProperties.length > 0,
-        dgNames: Object.keys(this.project.dataGroups)
-          .filter(key => this.active.dataGroupId !== key)
-          .map(key => { return { name: this.project.dataGroups[key].name, key } }),
         nameIsUnique: !Object.keys(this.project.dataGroups)
           .filter(key => this.active.dataGroupId !== key)
           .map(key => this.project.dataGroups[key].name)
           .includes(this.name),
         allPropertiesHaveNames: this.properties && !this.propertyNames.includes(''),
         nonNewpropertiesHaveNames: this.properties && !this.nonNewPropertyNames.includes(''),
-        hasChanges: this.typing
-          ? null
-          : {
-            orig: this.project.dataGroups[this.index],
-            new: this.updatedDataGroup,
-            result: this.updatedDataGroup === this.project.dataGroups[this.index]
-          }
+        hasChanges: this.mode === 'edit'
+          ? !Object.is(this.updatedDataGroup.name, this.dataGroup.name) || !Object.is(this.updatedDataGroup.properties, this.dataGroup.properties)
+          : null
       }
     },
     errors () {
@@ -108,6 +109,13 @@ const addEditDataGroup = {
       return Object.keys(this.properties)
         .filter(key => !this.properties[key]._isNew())
         .map(key => this.properties[key].value)
+    },
+    updatedDataGroup () {
+      return {
+        id: this.id,
+        name: this.name,
+        properties: this.properties
+      }
     }
   }
 }

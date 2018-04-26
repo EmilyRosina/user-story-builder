@@ -14,13 +14,15 @@
       <div @click="deleteDataGroup()" :class="['options-overlay__delete', ifSelected('delete')]">{{ selected === 'delete' ? 'Are you sure?' : 'Delete' }}</div>
     </el-row>
 
-    <modal-edit-data-group v-if="modalShowing.editDataGroup && dataGroup.id === active.dataGroupId" :dataGroupData="dataGroup"></modal-edit-data-group>
+    <modal-config-data-group mode="edit" v-if="modalShowing.editDataGroup && dataGroup.id === active.dataGroupId" :dataGroupData="dataGroup"></modal-config-data-group>
+    <!-- <modal-edit-data-group v-if="modalShowing.editDataGroup && dataGroup.id === active.dataGroupId" :dataGroupData="dataGroup"></modal-edit-data-group> -->
   </div>
 </template>
 
 <script>
   import { mapGetters, mapState } from 'vuex'
-  import ModalEditDataGroup from '@/components/Modal/EditDataGroup'
+  import ModalConfigDataGroup from '@/components/Modal/ConfigDataGroup'
+  // import ModalEditDataGroup from '@/components/Modal/EditDataGroup'
 
   export default {
     name: 'data-group',
@@ -31,7 +33,8 @@
       }
     },
     components: {
-      ModalEditDataGroup
+      ModalConfigDataGroup
+      // ModalEditDataGroup
     },
     data () {
       return {
