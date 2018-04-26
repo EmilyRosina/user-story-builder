@@ -4,7 +4,7 @@
     :visible="showModal"
     :width="modalWidth"
     :close-on-click-modal="false"
-    @close="closeModal()"
+    @close="closeModal('dataGroupId')"
     class="add-data-group">
 
     <span>
@@ -85,7 +85,7 @@
         // dataGroups[this.index] = Object.assign({}, this.dataGroup, { name: this.name, properties: this.properties })
         // let project = Object.assign({}, this.project, { dataGroups })
         // this.SET_PROJECT_DATA(project)
-        // this.closeModal('dataGroupId')
+        this.closeModal('dataGroupId')
       }
     },
     computed: {

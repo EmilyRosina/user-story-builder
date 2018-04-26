@@ -4,7 +4,7 @@
     :visible="showModal"
     :width="modalWidth"
     :close-on-click-modal="false"
-    @close="closeModal()"
+    @close="closeModal('dataGroupId')"
     class="add-data-group">
 
     <span>

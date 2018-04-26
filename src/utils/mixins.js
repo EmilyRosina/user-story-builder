@@ -12,7 +12,7 @@ const closeModal = {
     closeModal (activePropToBeSet = null) {
       if (activePropToBeSet) {
         activePropToBeSet = activePropToBeSet.charAt(0).toUpperCase() + activePropToBeSet.slice(1)
-        this.$store.commit(`setActive${activePropToBeSet}`, '')
+        this.$store.commit(`setActive${activePropToBeSet}`, null)
       }
       this.$store.commit('closeModal')
     }
@@ -60,7 +60,11 @@ const addEditDataGroup = {
         hasName: this.name !== '',
         typing: this.typing === true,
         propertyNamesAreUnique: !this.nonUniqueProperties.length > 0,
+        dgNames: Object.keys(this.project.dataGroups)
+          .filter(key => this.active.dataGroupId !== key)
+          .map(key => { return { name: this.project.dataGroups[key].name, key } }),
         nameIsUnique: !Object.keys(this.project.dataGroups)
+          .filter(key => this.active.dataGroupId !== key)
           .map(key => this.project.dataGroups[key].name)
           .includes(this.name),
         allPropertiesHaveNames: this.properties && !this.propertyNames.includes(''),
