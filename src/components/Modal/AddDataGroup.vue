@@ -77,8 +77,8 @@
     mixins: [closeModal, addEditDataGroup],
     data () {
       return {
-        id: '',
-        name: '',
+        id: null,
+        name: null,
         properties: {},
         typing: false
       }

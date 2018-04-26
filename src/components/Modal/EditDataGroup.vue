@@ -14,7 +14,7 @@
           <el-row type="flex">
             <el-input v-model.trim="name" class="centered"></el-input>
           </el-row>
-          <el-tag v-for="(error, index) in errors.name" :key="`name_error_${index}`" type="danger">{{ error }}</el-tag>
+          <el-tag v-for="(error, index) in errors.name" :key="`name_error_${index}`" type="danger">{{ error.text }}</el-tag>
         </el-col>
       </el-row>
 
@@ -68,11 +68,16 @@
     mixins: [closeModal, addEditDataGroup],
     data () {
       return {
-        id: this.dataGroup.id,
-        name: this.dataGroup.name,
-        properties: this.dataGroup.properties,
+        id: null,
+        name: null,
+        properties: null,
         typing: true
       }
+    },
+    created () {
+      this.id = this.dataGroup.id
+      this.name = this.dataGroup.name
+      this.properties = this.dataGroup.properties
     },
     methods: {
       ...mapActions([
