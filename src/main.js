@@ -8,12 +8,14 @@ import router from './router'
 
 import plugins from 'utils/plugins'
 import filters from 'utils/filters'
+import { objectsMatch } from 'utils/mixins'
 
 import GlobalStyles from '@/assets/style/main.scss'
 import GlobalComponents from 'utils/globalComponents'
 
 Vue.config.devtools = true
 Vue.config.productionTip = false
+Vue.mixin(objectsMatch)
 
 /* eslint-disable no-new */
 new Vue({

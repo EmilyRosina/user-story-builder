@@ -87,8 +87,7 @@
         id: null,
         name: null,
         properties: {},
-        typing: !this.mode === 'add' || this.mode === 'edit',
-        initial: null
+        typing: !this.mode === 'add' || this.mode === 'edit'
       }
     },
     created () {
@@ -97,10 +96,9 @@
           this.id = String(Date.now())
           break
         case 'edit':
-          this.initial = Object.assign({}, this.dataGroup)
-          this.id = this.initial.id
-          this.name = this.initial.name
-          this.properties = this.initial.properties
+          this.id = this.dataGroup.id
+          this.name = this.dataGroup.name
+          this.properties = Object.assign({}, this.dataGroup.properties)
           Object.keys(this.properties).forEach(key => {
             this.properties[key] = Object.assign({}, this.properties[key], {
               _isNew () { return this.new },

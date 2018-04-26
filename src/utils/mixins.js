@@ -7,6 +7,14 @@ const redirectIfNewUser = {
   }
 }
 
+const objectsMatch = {
+  methods: {
+    objectsMatch (obj1, obj2) {
+      return JSON.stringify(obj1) === JSON.stringify(obj2)
+    }
+  }
+}
+
 const closeModal = {
   methods: {
     closeModal (activePropToBeSet = null) {
@@ -26,14 +34,6 @@ const addEditDataGroup = {
     },
     addProperty () {
       let id = String(Date.now())
-      console.log('addProperty', Object.values(this.properties), id)
-      // this.properties[id] = {
-      //   id,
-      //   value: '',
-      //   new: true,
-      //   _isNew () { return this.new },
-      //   _hasNoName () { return this.value === '' }
-      // }
       this.$set(this.properties, id, {
         id,
         value: '',
@@ -75,7 +75,7 @@ const addEditDataGroup = {
         allPropertiesHaveNames: this.properties && !this.propertyNames.includes(''),
         nonNewpropertiesHaveNames: this.properties && !this.nonNewPropertyNames.includes(''),
         hasChanges: this.mode === 'edit'
-          ? !Object.is(this.updatedDataGroup.name, this.dataGroup.name) || !Object.is(this.updatedDataGroup.properties, this.dataGroup.properties)
+          ? !this.objectsMatch(this.updatedDataGroup.name, this.dataGroup.name) || !this.objectsMatch(this.properties, this.dataGroup.properties)
           : null
       }
     },
@@ -123,5 +123,6 @@ const addEditDataGroup = {
 export {
   redirectIfNewUser,
   closeModal,
-  addEditDataGroup
+  addEditDataGroup,
+  objectsMatch
 }
