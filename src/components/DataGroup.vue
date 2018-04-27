@@ -1,28 +1,33 @@
 <template>
   <div class="data-group">
 
-    <el-row type="flex" align="middle" @click.native="openOptions()">
-      <h2 class="data-group__name">{{ dataGroup.name }}</h2>
-      <el-tag class="data-group__property-length" :type="tagType" size="mini">{{ propertyLengthText }}</el-tag>
-      <div class="data-group__property-list">
+    <el-row @click.native="openOptions()">
+      <el-row class="data-group__title-bar">
+        <h2 class="data-group__name">{{ dataGroup.name }}</h2>
+      </el-row>
+      <el-tag :class="['data-group__property-length', {'data-group__property-length--none': Object.keys(dataGroup.properties).length === 0}]" :type="tagType" size="mini">{{ propertyLengthText }}</el-tag>
+      <el-row class="data-group__property-list">
         <span v-for="property in dataGroup.properties" :key="property.key" class="property">{{ property.value}}</span>
-      </div>
+      </el-row>
     </el-row>
     <div class="overlay" @click="closeOptions" v-if="showOptions"></div>
     <el-row class="options-overlay" type="flex" align="middle" v-if="showOptions">
-      <div @click="editDataGroup()" :class="['options-overlay__edit', ifSelected('edit')]">Edit</div>
-      <div @click="deleteDataGroup()" :class="['options-overlay__delete', ifSelected('delete')]">{{ selected === 'delete' ? 'Are you sure?' : 'Delete' }}</div>
+      <div @click="editDataGroup()" :class="['options-overlay__edit', ifSelected('edit')]">
+        <icon name="pencil-alt" scale="2"/>
+      </div>
+      <div @click="deleteDataGroup()" :class="['options-overlay__delete', ifSelected('delete')]">
+        <icon v-if="selected !== 'delete'" name="trash" scale="2"/>
+        <span v-else>Are you sure?</span>
+      </div>
     </el-row>
 
     <modal-config-data-group mode="edit" v-if="modalShowing.editDataGroup && dataGroup.id === active.dataGroupId" :dataGroupData="dataGroup"></modal-config-data-group>
-    <!-- <modal-edit-data-group v-if="modalShowing.editDataGroup && dataGroup.id === active.dataGroupId" :dataGroupData="dataGroup"></modal-edit-data-group> -->
   </div>
 </template>
 
 <script>
   import { mapGetters, mapState } from 'vuex'
   import ModalConfigDataGroup from '@/components/Modal/ConfigDataGroup'
-  // import ModalEditDataGroup from '@/components/Modal/EditDataGroup'
 
   export default {
     name: 'data-group',
@@ -34,7 +39,6 @@
     },
     components: {
       ModalConfigDataGroup
-      // ModalEditDataGroup
     },
     data () {
       return {
@@ -100,32 +104,55 @@
   .data-group {
     position: relative;
     overflow: hidden;
-    background: darken($grey, 10%);
-    padding: 1em;
     margin-top: 2em;
     user-select: none;
 
-    &__property-list {
-      display: block;
-      text-align: right;
-      width: 100%;
-      font-size: 0.75rem;
-      overflow: hidden;
+    &__title-bar {
+      background: darken($grey, 10%);
+      padding: 1em;
+    }
 
-      .property {
-        margin: 0 0.5em;
-      }
-    }
-    &__property-length {
-      border-radius: 1em;
-      margin-left: 1em;
-      padding-left: 0.5em;
-      padding-right: 0.5em;
-    }
     &__name {
       color: $orange;
       margin: 0;
       text-align: left;
+      word-wrap: break-word;
+    }
+
+
+    &__property-list {
+      display: block;
+      text-align: left;
+      border-bottom-right-radius: 1em;
+      margin: auto;
+      font-size: 0.75rem;
+      overflow: hidden;
+      min-height: 2em;
+      background: $grey-dark;
+      padding: 0.5em;
+      padding-right: 7.5em;
+
+      .property {
+        margin: 0 0.5em;
+        color: #999;
+      }
+    }
+    &__property-length {
+      border-radius: 1em;
+      padding-left: 0.5em;
+      padding-right: 0.5em;
+      position: absolute;
+      z-index: 1;
+      right: 2px;
+      bottom: 2px;
+
+      &--none {
+        left: 2px;
+        width: calc(100% - 4px);
+        border: none;
+        background: none;
+        font-style: italic;
+      }
     }
 
     .overlay {

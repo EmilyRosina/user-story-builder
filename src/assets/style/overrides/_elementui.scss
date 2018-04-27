@@ -247,3 +247,13 @@
     }
   }
 }
+
+.el-message {
+  min-width: 300px;
+  max-width: 95%;
+
+  &__content {
+    max-width: 100%;
+    word-wrap: break-word;
+  }
+}
