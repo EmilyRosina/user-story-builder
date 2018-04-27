@@ -19,3 +19,8 @@
   color: $red-dark;
   padding: 0.25em;
 }
+
+::selection {
+  background: transparentize($orange, 0.25);
+  color: white;
+}

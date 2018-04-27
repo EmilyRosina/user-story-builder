@@ -3,10 +3,27 @@
     <el-row>
 
       <el-col v-if="isReturningUser">
-        <el-tag type="warning">Dashboard coming soon...</el-tag>
+        <!-- <el-tag type="warning">Dashboard coming soon...</el-tag> -->
+        <el-row v-if="project" style="padding-top: 2em;">
+          <el-col :span="8">
+            <span class="U--color-orange"><b>Total</b> Data Groups:</span>
+            <span v-if="total.dataGroups">{{ total.dataGroups }}</span>
+            <span v-else class="U--dull-if-null">none</span>
+          </el-col>
+          <el-col :span="8">
+            <span class="U--color-orange"><b>Total</b> User Stories:</span>
+            <span v-if="total.userStories">{{ total.userStories }}</span>
+            <span v-else class="U--dull-if-null">none</span>
+          </el-col>
+          <el-col :span="8">
+            <span class="U--color-orange"><b>Total</b> User Journeys:</span>
+            <span v-if="total.userJourneys">{{ total.userJourneys }}</span>
+            <span v-else class="U--dull-if-null">none</span>
+          </el-col>
+        </el-row>
       </el-col>
 
-      <el-col class="setup" v-if="isNewUser" :sm="10" :md="8">
+      <el-col v-if="isNewUser" class="setup" :sm="10" :md="8">
         <h3>To get started, simply choose a name for your first project:</h3>
         <div class="add-new-project">
           <el-input
@@ -45,11 +62,20 @@
         'projectNames',
         'isNewUser',
         'isReturningUser',
-        'template'
+        'template',
+        'project'
       ]),
       ...mapState([
         'projects'
       ]),
+
+      total () {
+        return {
+          dataGroups: Object.keys(this.project.dataGroups).length,
+          userStories: Object.keys(this.project.userStories).length,
+          userJourneys: Object.keys(this.project.userJourneys).length
+        }
+      },
       validationChecks () {
         return {
           hasName: this.newProjectName !== '',

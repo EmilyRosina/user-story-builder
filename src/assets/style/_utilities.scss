@@ -8,4 +8,10 @@
   &--unset-float {
     float: unset;
   }
+  &--color-orange {
+    color: $orange;
+  }
+  &--dull-if-null {
+    color: #2e2e2e;
+  }
 }
