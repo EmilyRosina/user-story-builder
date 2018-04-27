@@ -161,18 +161,32 @@
 
   .button-bar {
     margin-bottom: 2em;
+
     &__button {
+      width: 9em;
       padding: 1em;
       background: #111;
       color: #eee;
       border-bottom: 3px solid transparent;
-      transition: 0.5s ease;
+      transition: 0.5s ease border;
       @extend %reset--button;
 
+      &:hover:not(.active):not(:active) {
+        color: $orange;
+      }
+
       &:active,
-      &:hover,
       &.active {
         border-color: $orange;
+      }
+
+      @media screen and (max-width: 420px) {
+        width: 100%;
+        border: 3px solid transparent;
+
+        &:hover:not(.active):not(:active) {
+          border-color: transparent;
+        }
       }
     }
   }
