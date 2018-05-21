@@ -62,6 +62,7 @@ exports.cssLoaders = function (options) {
       .concat({
         loader: 'sass-resources-loader',
         options: {
+          includePaths: [path.resolve(__dirname,'../node_modules/')],
           resources: path.resolve(__dirname, '../src/assets/style/_vars.scss')
         }
       }),
