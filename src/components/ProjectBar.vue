@@ -75,6 +75,9 @@
           .then(() => {
             this.$store.dispatch('DELETE_PROJECT', this.project.id)
           })
+          .catch((err) => {
+            return err !== 'cancel' ? console.error(err) : null
+          })
       },
       deleteAllProjects () {
         this.$confirm(
