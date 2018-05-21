@@ -1,6 +1,6 @@
 <template>
   <el-col>
-    <el-row :gutter="20" no-gutters>
+    <el-row :gutter="20" no-gutters type="flex" class="U--flex-wrap">
       <el-col :sm="12" :lg="8" v-for="(dataGroup, key) in dataGroups" :key="key">
         <data-group :dataGroup="dataGroup"></data-group>
       </el-col>
