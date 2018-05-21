@@ -257,3 +257,24 @@
     word-wrap: break-word;
   }
 }
+
+.el-notification {
+  background: transparentize($grey-dark, 0.25);
+  border: none;
+  border-radius: 0;
+
+  &__title {
+    color: $orange;
+  }
+  &__content {
+    color: $grey-light;
+    font-size: 0.7rem;
+    text-align: left;
+    line-height: 1.1em;
+  }
+
+  &__icon.el-icon-success {
+    font-size: 1em;
+    color: $orange;
+  }
+}
