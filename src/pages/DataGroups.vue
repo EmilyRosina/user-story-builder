@@ -4,7 +4,6 @@
     <el-tag v-if="dataGroupsIsArray" type="danger" class="el-tag--text-wrap">Not using latest version of datagroups builder, please delete this project</el-tag>
 
     <modal-config-data-group mode="add" v-if="modalShowing.addDataGroup"></modal-config-data-group>
-    <!-- <modal-add-data-group v-if="modalShowing.addDataGroup"></modal-add-data-group> -->
 
     <el-row>
       <btn-add-data-group></btn-add-data-group>
@@ -21,7 +20,6 @@
   import BtnAddDataGroup from '@/components/BtnAddDataGroup'
   import DataGroupList from '@/components/DataGroupList'
   import ModalConfigDataGroup from '@/components/Modal/ConfigDataGroup'
-  // import ModalAddDataGroup from '@/components/Modal/AddDataGroup'
   import { mapGetters } from 'vuex'
   import { redirectIfNewUser } from 'utils/mixins'
 
@@ -32,7 +30,6 @@
       BtnAddDataGroup,
       DataGroupList,
       ModalConfigDataGroup
-      // ModalAddDataGroup
     },
     mounted () {
       this.$store.commit('setActiveTab', 'dataGroups')

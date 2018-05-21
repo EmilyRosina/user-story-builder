@@ -11,7 +11,3 @@
     name: 'page-not-found'
   }
 </script>
-
-<style lang="scss" scoped>
-
-</style>

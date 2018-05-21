@@ -3,7 +3,6 @@
     <el-row>
 
       <el-col v-if="isReturningUser">
-        <!-- <el-tag type="warning">Dashboard coming soon...</el-tag> -->
         <el-row v-if="project" style="padding-top: 2em;">
           <el-col :span="8">
             <span class="U--color-orange"><b>Total</b> Data Groups:</span>
@@ -119,9 +118,6 @@
   }
   .add-new-project {
     .project-name {
-      &__input {
-
-      }
       &__errors {
         height: 1.5em;
         margin: 0.35em 0;
