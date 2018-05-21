@@ -39,7 +39,7 @@
 
     <el-footer>
       <span>EmilyRosina &copy; {{ thisYear }}</span>
-      <a href="https://github.com/EmilyRosina/user-story-builder" target="_blank" class="github"><icon name="brands/github" scale="2.5"/></a>
+      <a href="https://github.com/EmilyRosina/user-story-builder" target="_blank" rel="noopener" class="github"><icon name="brands/github" scale="2.5"/></a>
     </el-footer>
 
   </el-container>
