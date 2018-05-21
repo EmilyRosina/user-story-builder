@@ -1,6 +1,6 @@
 <template>
   <div class="project-bar">
-    <h4 class="project-name">{{ project.name }}</h4>
+    <h4 class="project-name">{{ project ? project.name : '' }}</h4>
     <el-button type="info" plain icon="el-icon-more" circle size="mini" class="icon--info" v-popover:options></el-button>
 
     <el-popover trigger="hover" ref="options" placement="bottom-end" :visible-arrow="false" popper-class="options">
