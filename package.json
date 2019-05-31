@@ -12,7 +12,7 @@
     "build": "node build/build.js && vcg"
   },
   "dependencies": {
-    "boom": "^7.2.0",
+    "boom": "^7.3.0",
     "element-ui": "^2.3.9",
     "hawk": "^7.0.7",
     "hoek": "^5.0.3",
